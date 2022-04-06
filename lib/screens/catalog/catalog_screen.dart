@@ -1,5 +1,4 @@
 import 'package:ecommerceapp/models/category_models.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/product_model.dart';

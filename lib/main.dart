@@ -1,32 +1,64 @@
-import 'package:ecommerceapp/blocs/wishlist/wishlist_bloc.dart';
-import 'package:ecommerceapp/blocs/wishlist/wishlist_event.dart';
-import 'package:ecommerceapp/screens/home/home_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'config/app_router.dart';
-import 'config/theme.dart';
+
+import 'package:ecommerceapp/repositories/category/category_repository.dart';
+
+import 'package:ecommerceapp/repositories/product/product_repository.dart';
+import 'package:ecommerceapp/screens/home/home_screen.dart';
+import 'package:ecommerceapp/screens/splash/splash_screen.dart';
+import 'package:ecommerceapp/simple_bloc_observer.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'blocs/wishlist/wishlist_bloc.dart';
+import 'blocs/wishlist/wishlist_event.dart';
+import '/config/theme.dart';
+import '/config/app_router.dart';
+
+import 'blocs/category/category_bloc.dart';
+import 'blocs/category/category_event.dart';
+import 'blocs/product/product_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  BlocOverrides.runZoned(
+        () {
+      runApp(MyApp());
+    },
+    blocObserver: SimpleBlocObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_)=> WishListBloc()..add(StartWishList())),
-      ],
-      child: MaterialApp(
-        title: 'E-commerce app',
-        theme: theme(),
-        onGenerateRoute: AppRouter.onGenerateRoute,
-        initialRoute: HomeScreen.routeName,
+    return MaterialApp(
+      title: 'Womens Shopping',
+      debugShowCheckedModeBanner: false,
+      theme: theme(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => WishListBloc()..add(StartWishList()),
+          ),
+          BlocProvider(
+            create: (_) => CategoryBloc(
+              categoryRepository: CategoryRepository(),
+            )..add(LoadCategories()),
+          ),
+          BlocProvider(
+            create: (_) => ProductBloc(
+              productRepository: ProductRepository(),
+            )..add(LoadProducts()),
+          ),
+        ],
+        child: MaterialApp(
+          title: 'Online Shopping',
+          debugShowCheckedModeBanner: false,
+          theme: theme(),
+          onGenerateRoute: AppRouter.onGenerateRoute,
+          initialRoute: HomeScreen.routeName,
+        ),
       ),
     );
   }

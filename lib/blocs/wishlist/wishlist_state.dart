@@ -1,6 +1,7 @@
+import 'package:ecommerceapp/models/models.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../models/category_model.dart';
+
 
 abstract class WishListState extends Equatable{
   const WishListState();
@@ -8,13 +9,19 @@ abstract class WishListState extends Equatable{
   List<Object> get props=> [];
 }
 
-class WishListLoading extends WishListState {}
+class WishListLoading extends WishListState {
+  @override
+  List<Object> get props => [];
+}
 class WishListLoaded extends WishListState {
-  final WishList wishList;
-  const WishListLoaded({this.wishList = const WishList()});
+  final Wishlist wishList;
+  const WishListLoaded({this.wishList = const Wishlist()});
 
   @override
   List<Object> get props => [wishList];
 
 }
-class WishListError extends WishListState {}
+class WishListError extends WishListState {
+  @override
+  List<Object> get props => [];
+}

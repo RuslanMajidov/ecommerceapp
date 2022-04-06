@@ -1,19 +1,17 @@
-import 'package:ecommerceapp/models/models.dart';
-import 'package:ecommerceapp/screens/catalog/catalog_screen.dart';
-import 'package:ecommerceapp/screens/product/product_screen.dart';
-import 'package:ecommerceapp/screens/screens.dart';
-import 'package:ecommerceapp/screens/wishlist/wishlist_screen.dart';
 import 'package:flutter/material.dart';
+import '/models/models.dart';
+import '/screens/screens.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
-    print('This route is: {$settings.name}');
-
+    print('Route: ${settings.name}');
     switch (settings.name) {
       case '/':
-        return HomeScreen.route();
       case HomeScreen.routeName:
         return HomeScreen.route();
+
+      case SplashScreen.routeName:
+        return SplashScreen.route();
       case CartScreen.routeName:
         return CartScreen.route();
       case ProductScreen.routeName:
@@ -30,10 +28,13 @@ class AppRouter {
 
   static Route _errorRoute() {
     return MaterialPageRoute(
-      settings: RouteSettings(name: '/error'),
+      settings: const RouteSettings(name: '/error'),
       builder: (_) => Scaffold(
         appBar: AppBar(
-          title: Text('Error'),
+          title: const Text('Error'),
+        ),
+        body: const Center(
+          child: Text('Something went wrong!'),
         ),
       ),
     );

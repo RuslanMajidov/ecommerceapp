@@ -22,24 +22,24 @@ class Category extends Equatable {
 
   static List<Category> categories = [
     Category(
-      name: "Hand Bags",
+      name: "Shoes",
       imageUrl:
          'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/41e45047-a899-4c21-bc2a-20c5a9eb966a/air-max-270-womens-shoes-Pgb94t.png',
              ),
     Category(
-      name: "Shoes",
+      name: "Hand Bags",
       imageUrl:
-          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+        'https://i.ytimg.com/vi/rV3aXMIxFj4/maxresdefault.jpg',
     ),
     Category(
       name: "Ornaments",
       imageUrl:
-          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+        'https://ae01.alicdn.com/kf/H23e7cceb39d641fcbbae016d5974585aL/Yulaili-New-Dubai-Jewelry-Sets-for-Women-Normal-Zircon-Necklace-Earrings-Bracelet-Ring-African-Nigeria-Bridal.jpg',
     ),
     Category(
       name: "Goggles",
       imageUrl:
-          'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+        'https://canary.contestimg.wish.com/api/webimage/5c809683bcfbc3414236b5a9-large.jpg?cache_buster=983f28cc94961b5bbb7a03b0688ef390',
     )
   ];
 }

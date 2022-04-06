@@ -10,7 +10,7 @@ ThemeData theme () {
 }
 
 TextTheme textTheme() {
-  return TextTheme(
+  return const TextTheme(
     headline1: TextStyle(
       color: Colors.black,
       fontSize: 16,
@@ -28,12 +28,12 @@ TextTheme textTheme() {
     ),
     headline4: TextStyle(
       color: Colors.black,
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: FontWeight.bold,
     ),
-    headline5: TextStyle(
+    headline5: const TextStyle(
       color: Colors.black,
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: FontWeight.bold,
     ),
     headline6: TextStyle(
@@ -43,12 +43,12 @@ TextTheme textTheme() {
     ),
     bodyText1: TextStyle(
       color: Colors.black,
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: FontWeight.normal,
     ),
     bodyText2: TextStyle(
       color: Colors.black,
-      fontSize: 16,
+      fontSize: 12,
       fontWeight: FontWeight.normal,
     ),
 
