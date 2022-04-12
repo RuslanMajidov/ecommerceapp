@@ -7,50 +7,52 @@ class CustomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      color: Colors.white,
-      child: Container(
-        height: 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(
-              icon: Icon(
-                Icons.home,
-                color: Colors.grey,
+    return ClipRRect(
+      child: BottomAppBar(
+        color: Color(0xFFDCD4E1).withOpacity(0.08),
+        child: Container(
+          height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              IconButton(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/');
+                },
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/');
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.favorite,
-                color: Colors.grey,
+              IconButton(
+                icon: const Icon(
+                  Icons.favorite,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/wishlist');
+                },
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/wishlist');
-              },
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.grey,
+              IconButton(
+                icon: Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/cart');
+                },
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/cart');
-              },
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.person,
-                color: Colors.grey,
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/user');
-              },
-            )
-          ],
+              IconButton(
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/user');
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

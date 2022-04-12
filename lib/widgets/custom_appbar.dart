@@ -15,7 +15,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             Row(
@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
               children: [
                 Text('IF YOU CANT STOP THINKING\nABOUT IT..\nBUY IT 🛍️',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Colors.white,
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     )),

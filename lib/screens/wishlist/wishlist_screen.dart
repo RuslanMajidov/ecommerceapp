@@ -38,22 +38,25 @@ class WishListSCreen extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 8.0, vertical: 16.0),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 1,
-                    childAspectRatio: 1.5,
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.8,
                   ),
-                  itemCount: Product.products.length,
+                  itemCount: state.wishList.products.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Center(
                       child: ProductCard(
-                        product: Product.products[index],
+                        product: state.wishList.products[index],
                         widthFactor: 1.1,
+                        leftPosition: 100,
+                        isWishList: true,
                       ),
                     );
                   },
                 ),
               );
+            } else {
+              return Text('Something went wrong!');
             }
-            return Text('Something went wrong!');
           },
         ));
   }

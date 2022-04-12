@@ -34,7 +34,7 @@ class SplashScreen extends StatelessWidget {
               horizontal: 20,
             ),
             child: Text(
-              'Zero To Unicorn',
+              '',
               style: Theme.of(context).textTheme.headline2!.copyWith(
                     color: Colors.white,
                   ),

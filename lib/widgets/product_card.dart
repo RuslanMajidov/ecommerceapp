@@ -59,7 +59,7 @@ class ProductCard extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
-                        .copyWith(color: Colors.black),
+                        .copyWith(color: Colors.blueGrey),
                   ),
                 ],
               ),

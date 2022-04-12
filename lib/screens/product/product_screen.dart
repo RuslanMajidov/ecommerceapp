@@ -1,5 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerceapp/blocs/blocs.dart';
+import 'package:ecommerceapp/blocs/wishlist/wishlist_event.dart';
+import 'package:ecommerceapp/blocs/wishlist/wishlist_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '/models/models.dart';
 import '/widgets/widgets.dart';
 
@@ -45,7 +48,7 @@ class ProductScreen extends StatelessWidget {
             ),
           ],
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.blueGrey,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -54,7 +57,7 @@ class ProductScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.blue,
+        color: Colors.blueGrey,
         child: Container(
           height: 70,
           child: Row(
@@ -66,12 +69,24 @@ class ProductScreen extends StatelessWidget {
                     Icons.share,
                     color: Colors.white,
                   )),
-              IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.favorite,
-                    color: Colors.white,
-                  )),
+              BlocBuilder<WishListBloc, WishListState>(
+                builder: (context, state) {
+                  return IconButton(
+                      onPressed: () {
+                        context
+                            .read<WishListBloc>()
+                            .add(AddWishListProduct(product));
+
+                        final snackBar =
+                            SnackBar(content: Text('Added to WishList'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                      icon: Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                      ));
+                },
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(primary: Colors.white),
                 onPressed: () {},
@@ -88,7 +103,7 @@ class ProductScreen extends StatelessWidget {
             product: product,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Column(
               children: [
                 Stack(
@@ -98,7 +113,7 @@ class ProductScreen extends StatelessWidget {
                       height: 60,
                       alignment: Alignment.bottomCenter,
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Colors.blueGrey,
                       ),
                     ),
                     Container(
@@ -106,7 +121,7 @@ class ProductScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width - 10,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Colors.blueGrey,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -116,17 +131,13 @@ class ProductScreen extends StatelessWidget {
                           children: [
                             Text(
                               product.name,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline5!
-                                  .copyWith(color: Colors.white),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                             Text(
                               '\$${product.price}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline5!
-                                  .copyWith(color: Colors.white),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
                             ),
                           ],
                         ),
@@ -136,9 +147,11 @@ class ProductScreen extends StatelessWidget {
                 ),
                 ExpansionTile(
                   initiallyExpanded: true,
-                  title: Text(
-                    "Product Information",
-                    style: Theme.of(context).textTheme.headline3,
+                  title: Expanded(
+                    child: Text(
+                      "Product Information",
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
                   ),
                   children: <Widget>[
                     ListTile(

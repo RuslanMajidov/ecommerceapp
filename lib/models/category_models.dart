@@ -10,13 +10,11 @@ class Category extends Equatable {
     required this.imageUrl,
   });
   @override
-  List<Object?> get props => [
-   name, imageUrl
-    ];
+  List<Object?> get props => [name, imageUrl];
 
   static Category fromSnapshot(DocumentSnapshot snap) {
-    Category category = Category(name: snap['name'],
-        imageUrl:snap['imageUrl']);
+    Category category =
+        Category(name: snap['name'], imageUrl: snap['imageUrl']);
     return category;
   }
 
@@ -24,22 +22,21 @@ class Category extends Equatable {
     Category(
       name: "Shoes",
       imageUrl:
-         'https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/41e45047-a899-4c21-bc2a-20c5a9eb966a/air-max-270-womens-shoes-Pgb94t.png',
-             ),
+          'https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c25lYWtlcnN8ZW58MHx8MHx8&w=1000&q=80',
+    ),
     Category(
       name: "Hand Bags",
-      imageUrl:
-        'https://i.ytimg.com/vi/rV3aXMIxFj4/maxresdefault.jpg',
+      imageUrl: 'https://data.whicdn.com/images/344008933/original.jpg',
     ),
     Category(
       name: "Ornaments",
       imageUrl:
-        'https://ae01.alicdn.com/kf/H23e7cceb39d641fcbbae016d5974585aL/Yulaili-New-Dubai-Jewelry-Sets-for-Women-Normal-Zircon-Necklace-Earrings-Bracelet-Ring-African-Nigeria-Bridal.jpg',
+          'https://i.pinimg.com/originals/3d/d6/4f/3dd64f64c1b1545777bb91cd48205da5.jpg',
     ),
     Category(
       name: "Goggles",
       imageUrl:
-        'https://canary.contestimg.wish.com/api/webimage/5c809683bcfbc3414236b5a9-large.jpg?cache_buster=983f28cc94961b5bbb7a03b0688ef390',
+          'https://i.pinimg.com/736x/39/99/bb/3999bb144ab7bd6512bf2286dd51006e.jpg',
     )
   ];
 }

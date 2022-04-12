@@ -16,9 +16,9 @@ class HeroCarouselCard extends StatelessWidget {
         ;
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5.0, vertical: 15),
+        margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 15),
         child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+            borderRadius: BorderRadius.all(Radius.circular(20.0)),
             child: Stack(
               children: <Widget>[
                 Image.network(

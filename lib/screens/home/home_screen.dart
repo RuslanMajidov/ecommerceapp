@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'Online Shopping',
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFF2F323E),
       bottomNavigationBar: CustomNavBar(),
       body: Column(
         children: [
@@ -50,8 +50,8 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   'Products',
                   style: const TextStyle(
-                    fontSize: 15.0,
-                    color: Colors.black,
+                    fontSize: 22.0,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -59,8 +59,8 @@ class HomeScreen extends StatelessWidget {
                   text: TextSpan(
                       text: 'See All',
                       style: const TextStyle(
-                        fontSize: 15.0,
-                        color: Colors.black,
+                        fontSize: 22.0,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                       recognizer: TapGestureRecognizer()
