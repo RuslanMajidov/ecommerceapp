@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
       appBar: CustomAppBar(
         title: 'Online Shopping',
       ),
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.white,
       bottomNavigationBar: CustomNavBar(),
       body: Column(
         children: [

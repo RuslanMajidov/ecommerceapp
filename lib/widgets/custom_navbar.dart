@@ -8,26 +8,44 @@ class CustomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: Colors.black,
+      color: Colors.white,
       child: Container(
-        height: 70,
+        height: 60,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             IconButton(
-              icon: Icon(Icons.home, color: Colors.white,),
+              icon: Icon(
+                Icons.home,
+                color: Colors.grey,
+              ),
               onPressed: () {
                 Navigator.pushNamed(context, '/');
               },
             ),
             IconButton(
-              icon: Icon(Icons.shopping_cart, color: Colors.white,),
+              icon: const Icon(
+                Icons.favorite,
+                color: Colors.grey,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/wishlist');
+              },
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+                color: Colors.grey,
+              ),
               onPressed: () {
                 Navigator.pushNamed(context, '/cart');
               },
             ),
             IconButton(
-              icon: Icon(Icons.person, color: Colors.white,),
+              icon: Icon(
+                Icons.person,
+                color: Colors.grey,
+              ),
               onPressed: () {
                 Navigator.pushNamed(context, '/user');
               },

@@ -15,13 +15,12 @@ class ProductCard extends StatelessWidget {
     Key? key,
     required this.product,
     this.widthFactor = 2.5,
-    this.leftPosition = 5,
+    this.leftPosition = 2,
     this.isWishList = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final double widthValue = MediaQuery.of(context).size.width / widthFactor;
     return InkWell(
       onTap: () {
         Navigator.pushNamed(context, '/product', arguments: product);

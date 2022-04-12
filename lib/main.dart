@@ -1,5 +1,3 @@
-
-
 import 'package:ecommerceapp/repositories/category/category_repository.dart';
 
 import 'package:ecommerceapp/repositories/product/product_repository.dart';
@@ -22,7 +20,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   BlocOverrides.runZoned(
-        () {
+    () {
       runApp(MyApp());
     },
     blocObserver: SimpleBlocObserver(),

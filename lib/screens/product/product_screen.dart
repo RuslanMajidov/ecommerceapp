@@ -14,7 +14,6 @@ class ProductScreen extends StatelessWidget {
   }
 
   final Product product;
-
   const ProductScreen({
     required this.product,
   });
@@ -22,21 +21,71 @@ class ProductScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: product.name),
-      bottomNavigationBar: CustomNavBar(),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              product.name,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
+            ),
+            SizedBox(
+              width: 140,
+            ),
+            Text(
+              "4.5",
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            const Icon(
+              Icons.star,
+              color: Colors.orange,
+            ),
+          ],
+        ),
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.blue,
+        child: Container(
+          height: 70,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.share,
+                    color: Colors.white,
+                  )),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.favorite,
+                    color: Colors.white,
+                  )),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.white),
+                onPressed: () {},
+                child: Text('ADD TO CART',
+                    style: Theme.of(context).textTheme.headline3!),
+              )
+            ],
+          ),
+        ),
+      ),
       body: ListView(
         children: [
-          CarouselSlider(
-            options: CarouselOptions(
-              aspectRatio: 1.5,
-              viewportFraction: 0.9,
-              enlargeCenterPage: true,
-              enlargeStrategy: CenterPageEnlargeStrategy.height,
-            ),
-            items:
-              Category.categories
-                  .map((category) => HeroCarouselCard(category: category))
-                  .toList(),
+          HeroCarouselCard(
+            product: product,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -57,7 +106,7 @@ class ProductScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width - 10,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: Colors.blue,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -94,7 +143,7 @@ class ProductScreen extends StatelessWidget {
                   children: <Widget>[
                     ListTile(
                       title: Text(
-                        '',
+                        'Brand: Fila\nLight weight\nGender: Women\nCasual Wear\nComfortable\nMaterial: Elastic Fibre+Micro Fibres+PU+Phylon',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     )
@@ -108,7 +157,7 @@ class ProductScreen extends StatelessWidget {
                   children: <Widget>[
                     ListTile(
                       title: Text(
-                        'Online shopping',
+                        'Home Delivery 2-4 Days\nCash on Delivery Available',
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                     )

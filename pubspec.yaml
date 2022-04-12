@@ -18,7 +18,8 @@ dependencies:
   firebase_core: ^1.14.0
   cloud_firestore: ^3.1.11
   flutter_svg: ^1.0.3
-  pay: ^1.0.8
+
+  flutter_vector_icons: ^1.0.0
 
 
 dev_dependencies:

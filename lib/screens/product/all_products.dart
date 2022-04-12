@@ -3,8 +3,19 @@ import 'package:flutter/material.dart';
 import '../../models/product_model.dart';
 
 class AllProducts extends StatelessWidget {
+  static const String routeName = '/all_products';
+  static Route route({required product}) {
+    return MaterialPageRoute(
+      settings: RouteSettings(name: routeName),
+      builder: (context) => AllProducts(product: product),
+    );
+  }
+
   final Product product;
-  const AllProducts({Key? key, required this.product}) : super(key: key);
+  const AllProducts({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +82,7 @@ class AllProducts extends StatelessWidget {
                         onPressed: () {
                           // productId = snapshot.data![index].id;
                           // setState(() {
-                          //   _futureAddtoCartMenu =
-                          //       createAddtoCartMenu(
+                          //   _futureAddtoCartMenu = createAddtoCartMenu(
                           //     productId.toString(),
                           //   );
                           // });
