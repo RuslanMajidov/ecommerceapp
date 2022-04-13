@@ -30,7 +30,7 @@ class CatalogScreen extends StatelessWidget {
           'Catalog',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Color(0xFFDCD4E1).withOpacity(0.08),
       ),
       bottomNavigationBar: CustomNavBar(),
       body: GridView.builder(

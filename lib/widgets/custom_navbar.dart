@@ -48,7 +48,7 @@ class CustomNavBar extends StatelessWidget {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/user');
+                  Navigator.pushNamed(context, '/profile');
                 },
               )
             ],

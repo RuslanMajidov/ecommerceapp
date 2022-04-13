@@ -5,7 +5,7 @@ class Product extends Equatable {
   final String name;
   final String category;
   final String imageUrl;
-  final double price;
+  final num price;
   final bool ProductList;
 
   const Product({
@@ -34,7 +34,7 @@ class Product extends Equatable {
       category: 'Shoes',
       imageUrl:
           'https://static-01.daraz.com.np/p/c08a216ea39c997bd25279d89d379748.jpg',
-      price: 1000,
+      price: 1200,
       ProductList: true,
     ),
     Product(

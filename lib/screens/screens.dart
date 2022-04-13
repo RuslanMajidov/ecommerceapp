@@ -6,3 +6,4 @@ export 'product/product_screen.dart';
 export 'splash/splash_screen.dart';
 export 'wishlist/wishlist_screen.dart';
 export 'product/all_products.dart';
+export 'profile/profile_screen.dart';

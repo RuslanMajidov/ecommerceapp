@@ -24,6 +24,8 @@ class AppRouter {
         return CatalogScreen.route(category: settings.arguments as Category);
       case WishListSCreen.routeName:
         return WishListSCreen.route();
+      case ProfileScreen.routeName:
+        return ProfileScreen.route();
 
       default:
         return _errorRoute();

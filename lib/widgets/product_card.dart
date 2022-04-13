@@ -59,11 +59,25 @@ class ProductCard extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
-                        .copyWith(color: Colors.blueGrey),
+                        .copyWith(color: Colors.black),
                   ),
                 ],
               ),
             ),
+            Expanded(
+              child: IconButton(
+                icon: Icon(Icons.delete, color: Colors.white),
+                onPressed: () {},
+              ),
+            ),
+            isWishList
+                ? Expanded(
+                    child: IconButton(
+                      icon: Icon(Icons.delete, color: Colors.white),
+                      onPressed: () {},
+                    ),
+                  )
+                : SizedBox(),
           ],
         ),
       ),
