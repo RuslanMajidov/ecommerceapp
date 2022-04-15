@@ -29,7 +29,7 @@ class ProductCarousel extends StatelessWidget {
         itemCount: 10,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(16)),
               child: ProductCard(

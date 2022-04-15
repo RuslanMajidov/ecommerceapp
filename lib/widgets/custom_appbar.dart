@@ -21,12 +21,15 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('IF YOU CANT STOP THINKING\nABOUT IT..\nBUY IT 🛍️',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                    )),
+                Flexible(
+                  child:
+                      Text('IF YOU CANT STOP THINKING\nABOUT IT..\nBUY IT 🛍️',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          )),
+                ),
                 Stack(
                   children: [
                     Container(

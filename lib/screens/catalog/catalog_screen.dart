@@ -44,9 +44,12 @@ class CatalogScreen extends StatelessWidget {
           itemCount: categoryProducts.length,
           itemBuilder: (BuildContext context, int index) {
             return Center(
-              child: ProductCard(
-                product: categoryProducts[index],
-                widthFactor: 1.1,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: ProductCard(
+                  product: categoryProducts[index],
+                  widthFactor: 1.1,
+                ),
               ),
             );
           }),

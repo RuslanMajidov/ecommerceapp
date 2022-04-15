@@ -1,8 +1,12 @@
+import 'dart:io';
 import 'package:ecommerceapp/widgets/custom_navbar.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   static const String routeName = '/profile';
   static Route route() {
     return MaterialPageRoute(
@@ -12,8 +16,39 @@ class ProfileScreen extends StatelessWidget {
   }
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  ImagePicker _imagepicker = ImagePicker();
+  late File _image;
+
+  @override
   Widget build(BuildContext context) {
-    var user;
+    Future getImage() async {
+      // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      _imagepicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _image = _image as File;
+        print('Image Path $_image');
+      });
+    }
+
+    Future uploadPic(BuildContext context) async {
+      String fileName = basename(_image.path);
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref = storage.ref().child("image" + DateTime.now().toString());
+      UploadTask uploadTask = ref.putFile(_image);
+      uploadTask.then((res) {
+        res.ref.getDownloadURL();
+        setState(() {
+          print("Profile Picture uploaded");
+          Scaffold.of(context).showSnackBar(
+              SnackBar(content: Text('Profile Picture Uploaded')));
+        });
+      });
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFF2F323E),
       appBar: AppBar(
@@ -23,228 +58,245 @@ class ProfileScreen extends StatelessWidget {
         ),
         backgroundColor: Color(0xFFDCD4E1).withOpacity(0.08),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-              child: Row(
-                children: [
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 35.0,
-                        backgroundImage: NetworkImage(
-                            user == null ? "" : user.photoURL ?? ''),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    width: 20.0,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        user == null ? '' : user.displayName ?? '',
-                        style: const TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        user == null ? '' : user.email ?? '',
-                        style: const TextStyle(
-                          fontSize: 17.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Stay home and shop online.',
-                    style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue[900]),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(
-              color: Color(0xFFF5F5F5),
-              height: 30,
-              thickness: 20.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                color: const Color(0xFFFFFFFF),
+      bottomNavigationBar: CustomNavBar(),
+      body: Builder(
+          builder: (context) => Container(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'ACCOUNT',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF616161),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5.0,
-                    ),
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.settings,
-                        color: Color(0xFF424242),
-                      ),
-                      label: const Text(
-                        'Account Settings',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF424242),
-                        ),
-                      ),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        FontAwesome.bell,
-                        color: Color(0xFF424242),
-                      ),
-                      label: const Text(
-                        'Notification Settings',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF424242),
-                        ),
-                      ),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Feather.repeat,
-                        color: Color(0xFF424242),
-                      ),
-                      label: const Text(
-                        'Update Goals',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF424242),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const Divider(
-              color: Color(0xFFF5F5F5),
-              height: 30,
-              thickness: 20.0,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                color: const Color(0xFFFFFFFF),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'HELP AND LEGAL',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF616161),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5.0,
-                    ),
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        MaterialIcons.quick_contacts_mail,
-                        size: 25.0,
-                        color: Color(0xFF424242),
-                      ),
-                      label: const Text(
-                        'Contact Us',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF424242),
-                        ),
-                      ),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Feather.info,
-                        color: Color(0xFF424242),
-                      ),
-                      label: const Text(
-                        'About Us',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF424242),
-                        ),
-                      ),
-                    ),
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(
-                        MaterialCommunityIcons.file_certificate,
-                        size: 30,
-                        color: Color(0xFF424242),
-                      ),
-                      label: const Text(
-                        'Terms & Policies',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF424242),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      color: const Color(0xFFF5F5F5),
-                      child: const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Version 1.0.5',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Color(0xFF424242),
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(height: 20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.center,
+                          child: CircleAvatar(
+                            radius: 100,
+                            backgroundColor: Colors.white,
+                            child: ClipOval(
+                              child: SizedBox(
+                                width: 400,
+                                height: 250,
+                                child: (_image != null)
+                                    ? Image.file(
+                                        _image,
+                                        fit: BoxFit.fill,
+                                      )
+                                    : Image.network(
+                                        'https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg',
+                                        fit: BoxFit.fill,
+                                      ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 60.0),
+                          child: IconButton(
+                            icon: Icon(
+                              FontAwesome.camera,
+                              size: 30.0,
+                            ),
+                            onPressed: () {
+                              getImage();
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              child: Column(children: const <Widget>[
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Username',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 18),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Anbesha Thapa',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 18),
+                                  ),
+                                ),
+                              ]),
+                            )),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            child: Icon(
+                              FontAwesome.pencil,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              child: Column(children: const <Widget>[
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Birthday',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 18),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    '21st March,2020',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 18),
+                                  ),
+                                ),
+                              ]),
+                            )),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            child: Icon(
+                              FontAwesome.pencil,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              child: Column(children: const <Widget>[
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Location',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 18),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Kathmandu, Nepal',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 18),
+                                  ),
+                                ),
+                              ]),
+                            )),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            child: Icon(
+                              FontAwesome.pencil,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              child: Column(children: const <Widget>[
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'Email',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 18),
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    'anbeshathap@gmail.com',
+                                    style: TextStyle(
+                                        color: Colors.blueGrey, fontSize: 18),
+                                  ),
+                                ),
+                              ]),
+                            )),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            child: Icon(
+                              FontAwesome.pencil,
+                              color: Colors.blue,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        RaisedButton(
+                          color: Colors.white,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          elevation: 4.0,
+                          splashColor: Colors.blueGrey,
+                          child: Text(
+                            'Cancel',
+                            style:
+                                TextStyle(color: Colors.black, fontSize: 16.0),
+                          ),
+                        ),
+                        RaisedButton(
+                          color: Color(0xff476cfb),
+                          onPressed: () {
+                            uploadPic(context);
+                          },
+                          elevation: 4.0,
+                          splashColor: Colors.blueGrey,
+                          child: Text(
+                            'Submit',
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 16.0),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ),
-            ),
-          ],
-        ),
-      ),
+              )),
     );
   }
 }
