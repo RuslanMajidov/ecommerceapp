@@ -36,7 +36,7 @@ class ProductScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              width: 140,
+              width: 20,
             ),
             Text(
               "4.5",

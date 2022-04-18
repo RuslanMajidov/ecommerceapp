@@ -22,6 +22,8 @@ dependencies:
   syncfusion_flutter_datepicker: ^20.1.48
   firebase_storage: ^10.2.11
   font_awesome_flutter: ^10.1.0
+  get: ^4.6.1
+  firebase_auth: ^3.3.14
 
 
   flutter_vector_icons: ^1.0.0

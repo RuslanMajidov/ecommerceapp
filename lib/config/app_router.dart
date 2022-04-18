@@ -1,3 +1,4 @@
+import 'package:ecommerceapp/screens/profile/EditProfile.dart';
 import 'package:flutter/material.dart';
 import '/models/models.dart';
 import '/screens/screens.dart';
@@ -26,6 +27,8 @@ class AppRouter {
         return WishListSCreen.route();
       case ProfileScreen.routeName:
         return ProfileScreen.route();
+      case EditProfile.routeName:
+        return EditProfile.route();
 
       default:
         return _errorRoute();

@@ -12,32 +12,34 @@ class ProductCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 215,
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 0.9,
-            mainAxisSpacing: 8,
-            crossAxisSpacing: 8),
-        shrinkWrap: true,
-        padding: EdgeInsets.symmetric(
-          horizontal: 10.0,
-          vertical: 5.0,
-        ),
-        scrollDirection: Axis.vertical,
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-              child: ProductCard(
-                product: products[index],
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: 215,
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.9,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8),
+          shrinkWrap: true,
+          padding: EdgeInsets.symmetric(
+            horizontal: 10.0,
+            vertical: 5.0,
+          ),
+          scrollDirection: Axis.vertical,
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(16)),
+                child: ProductCard(
+                  product: products[index],
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

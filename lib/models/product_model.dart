@@ -116,7 +116,7 @@ class Product extends Equatable {
       ProductList: true,
     ),
     Product(
-      name: "Butterfly Bangle Bracelet",
+      name: "Butterfly Bracelet",
       category: 'Ornaments',
       imageUrl:
           'https://image.made-in-china.com/44f3j00WyOfmuirfBcp/Fashion-Girls-Jewelry-Fancy-Beautiful-Butterfly-Bangle-Bracelet.jpg',
@@ -131,7 +131,7 @@ class Product extends Equatable {
       ProductList: true,
     ),
     Product(
-      name: "Transparent Sunglasses",
+      name: "Transparent glass",
       category: 'Goggles',
       imageUrl:
           'https://img.joomcdn.net/98824623da90d58b4cf745c1b331cda08bf69a5c_original.jpeg',
@@ -154,7 +154,7 @@ class Product extends Equatable {
       ProductList: true,
     ),
     Product(
-      name: "Royal Grey Radient Sungalsses",
+      name: "Radient Sungalsses",
       category: 'Goggles',
       imageUrl:
           'https://02.cdn37.se/ak1/images/2.619242/chimi-eyewear-01-grey.jpeg',
@@ -162,7 +162,7 @@ class Product extends Equatable {
       ProductList: true,
     ),
     Product(
-      name: "Orange Leather HandBag",
+      name: "Leather HandBag",
       category: 'Hand Bags',
       imageUrl:
           'https://5.imimg.com/data5/NM/II/MY-3020503/ladies-hand-bags1-500x500.jpg',
@@ -178,7 +178,7 @@ class Product extends Equatable {
       ProductList: true,
     ),
     Product(
-      name: "Purses Shoulder Handbag",
+      name: "Shoulder Handbag",
       category: 'Hand Bags',
       imageUrl:
           'https://static-01.daraz.com.np/p/62670c42625c98206407f7fbcb74217c.jpg',

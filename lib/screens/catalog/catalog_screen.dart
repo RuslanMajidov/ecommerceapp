@@ -1,4 +1,5 @@
 import 'package:ecommerceapp/models/category_models.dart';
+import 'package:ecommerceapp/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/product_model.dart';
@@ -11,7 +12,7 @@ class CatalogScreen extends StatelessWidget {
   static Route route({required Category category}) {
     return MaterialPageRoute(
       settings: RouteSettings(name: routeName),
-      builder: (context) => CatalogScreen(category: category),
+      builder: (context) => HomeScreen(),
     );
   }
 

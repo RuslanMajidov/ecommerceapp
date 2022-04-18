@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'package:ecommerceapp/widgets/custom_navbar.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String routeName = '/profile';
@@ -20,283 +18,148 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  ImagePicker _imagepicker = ImagePicker();
-  late File _image;
+  File? pickedImage;
+  void imagePickerOption() {
+    Get.bottomSheet(
+      SingleChildScrollView(
+        child: ClipRRect(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10.0),
+            topRight: Radius.circular(10.0),
+          ),
+          child: Container(
+            color: Colors.white,
+            height: 250,
+          ),
+        ),
+      ),
+    );
+  }
 
+  pickImage(ImageSource imageType) async {
+    try {
+      final photo = await ImagePicker().pickImage(source: imageType);
+      if (photo == null) return;
+      final tempImage = File(photo.path);
+      setState(() {
+        pickedImage = tempImage;
+      });
+
+      Get.back();
+    } catch (error) {
+      debugPrint(error.toString());
+    }
+  }
+
+  bool isObscurePassword = true;
   @override
   Widget build(BuildContext context) {
-    Future getImage() async {
-      // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-      _imagepicker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        _image = _image as File;
-        print('Image Path $_image');
-      });
-    }
-
-    Future uploadPic(BuildContext context) async {
-      String fileName = basename(_image.path);
-      FirebaseStorage storage = FirebaseStorage.instance;
-      Reference ref = storage.ref().child("image" + DateTime.now().toString());
-      UploadTask uploadTask = ref.putFile(_image);
-      uploadTask.then((res) {
-        res.ref.getDownloadURL();
-        setState(() {
-          print("Profile Picture uploaded");
-          Scaffold.of(context).showSnackBar(
-              SnackBar(content: Text('Profile Picture Uploaded')));
-        });
-      });
-    }
-
     return Scaffold(
-      backgroundColor: Color(0xFF2F323E),
       appBar: AppBar(
-        title: Text(
-          'Profile',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
-        ),
-        backgroundColor: Color(0xFFDCD4E1).withOpacity(0.08),
+        backgroundColor: Colors.orange,
+        title: Container(
+            child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Profile',
+              style: TextStyle(
+                fontSize: 22,
+              ),
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.pushNamed(context, '/editprofile');
+              },
+            ),
+          ],
+        )),
       ),
-      bottomNavigationBar: CustomNavBar(),
-      body: Builder(
-          builder: (context) => Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    SizedBox(height: 20.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.center,
-                          child: CircleAvatar(
-                            radius: 100,
-                            backgroundColor: Colors.white,
-                            child: ClipOval(
-                              child: SizedBox(
-                                width: 400,
-                                height: 250,
-                                child: (_image != null)
-                                    ? Image.file(
-                                        _image,
-                                        fit: BoxFit.fill,
-                                      )
-                                    : Image.network(
-                                        'https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg',
-                                        fit: BoxFit.fill,
-                                      ),
-                              ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(
+              height: 50,
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Stack(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.indigo, width: 5),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(100),
+                      ),
+                    ),
+                    child: ClipOval(
+                      child: pickedImage != null
+                          ? Image.file(
+                              pickedImage!,
+                              width: 170,
+                              height: 170,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__480.jpg',
+                              width: 170,
+                              height: 170,
+                              fit: BoxFit.cover,
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 60.0),
-                          child: IconButton(
-                            icon: Icon(
-                              FontAwesome.camera,
-                              size: 30.0,
-                            ),
-                            onPressed: () {
-                              getImage();
-                            },
-                          ),
-                        )
-                      ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              child: Column(children: const <Widget>[
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Username',
-                                    style: TextStyle(
-                                        color: Colors.blueGrey, fontSize: 18),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Anbesha Thapa',
-                                    style: TextStyle(
-                                        color: Colors.blueGrey, fontSize: 18),
-                                  ),
-                                ),
-                              ]),
-                            )),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            child: Icon(
-                              FontAwesome.pencil,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              child: Column(children: const <Widget>[
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Birthday',
-                                    style: TextStyle(
-                                        color: Colors.blueGrey, fontSize: 18),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    '21st March,2020',
-                                    style: TextStyle(
-                                        color: Colors.blueGrey, fontSize: 18),
-                                  ),
-                                ),
-                              ]),
-                            )),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            child: Icon(
-                              FontAwesome.pencil,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              child: Column(children: const <Widget>[
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Location',
-                                    style: TextStyle(
-                                        color: Colors.blueGrey, fontSize: 18),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Kathmandu, Nepal',
-                                    style: TextStyle(
-                                        color: Colors.blueGrey, fontSize: 18),
-                                  ),
-                                ),
-                              ]),
-                            )),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            child: Icon(
-                              FontAwesome.pencil,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              child: Column(children: const <Widget>[
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'Email',
-                                    style: TextStyle(
-                                        color: Colors.blueGrey, fontSize: 18),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    'anbeshathap@gmail.com',
-                                    style: TextStyle(
-                                        color: Colors.blueGrey, fontSize: 18),
-                                  ),
-                                ),
-                              ]),
-                            )),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            child: Icon(
-                              FontAwesome.pencil,
-                              color: Colors.blue,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        RaisedButton(
-                          color: Colors.white,
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          elevation: 4.0,
-                          splashColor: Colors.blueGrey,
-                          child: Text(
-                            'Cancel',
-                            style:
-                                TextStyle(color: Colors.black, fontSize: 16.0),
-                          ),
-                        ),
-                        RaisedButton(
-                          color: Color(0xff476cfb),
-                          onPressed: () {
-                            uploadPic(context);
-                          },
-                          elevation: 4.0,
-                          splashColor: Colors.blueGrey,
-                          child: Text(
-                            'Submit',
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 16.0),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            buildTextField("Full name", "Anbe", false),
+            buildTextField("Email", "anbe@gmail.com", false),
+            buildTextField("Password", "******", true),
+            buildTextField("Location", "Kathmandu", false),
+            buildTextField("Birthday", "21st March,2020", false)
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextField(
+      String labelText, String placeholder, bool isPasswordTextField) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 30),
+        child: TextField(
+          obscureText: isPasswordTextField ? isObscurePassword : false,
+          decoration: InputDecoration(
+              suffixIcon: isPasswordTextField
+                  ? IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.remove_red_eye,
+                        color: Colors.grey,
+                      ))
+                  : null,
+              contentPadding: EdgeInsets.only(bottom: 5),
+              labelText: labelText,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              hintText: placeholder,
+              hintStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
               )),
+        ),
+      ),
     );
   }
 }

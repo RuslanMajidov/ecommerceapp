@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,52 +28,55 @@ class HomeScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.orange.shade600,
       bottomNavigationBar: CustomNavBar(),
-      body: Column(
-        children: [
-          CarouselSlider(
-            options: CarouselOptions(
-              aspectRatio: 1.5,
-              viewportFraction: 0.9,
-              enlargeCenterPage: true,
-              enlargeStrategy: CenterPageEnlargeStrategy.height,
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          children: [
+            CarouselSlider(
+              options: CarouselOptions(
+                aspectRatio: 1.5,
+                viewportFraction: 0.9,
+                enlargeCenterPage: true,
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+              ),
+              items: Category.categories
+                  .map((category) => HeroCarouselCard(category: category))
+                  .toList(),
             ),
-            items: Category.categories
-                .map((category) => HeroCarouselCard(category: category))
-                .toList(),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Products',
-                  style: const TextStyle(
-                    fontSize: 22.0,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Products',
+                    style: const TextStyle(
+                      fontSize: 22.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                RichText(
-                  text: TextSpan(
-                      text: 'See All',
-                      style: const TextStyle(
-                        fontSize: 22.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          Navigator.pushNamed(context, '/all_products');
-                        }),
-                ),
-              ],
+                  RichText(
+                    text: TextSpan(
+                        text: 'See All',
+                        style: const TextStyle(
+                          fontSize: 22.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pushNamed(context, '/all_products');
+                          }),
+                  ),
+                ],
+              ),
             ),
-          ),
-          // ProductCard(product: Product.products[0],)
+            // ProductCard(product: Product.products[0],)
 
-          ProductCarousel(products: Product.products),
-        ],
+            ProductCarousel(products: Product.products),
+          ],
+        ),
       ),
     );
   }

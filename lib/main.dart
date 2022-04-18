@@ -2,11 +2,13 @@ import 'package:ecommerceapp/repositories/category/category_repository.dart';
 
 import 'package:ecommerceapp/repositories/product/product_repository.dart';
 import 'package:ecommerceapp/screens/home/home_screen.dart';
+import 'package:ecommerceapp/screens/profile/profile_screen.dart';
 import 'package:ecommerceapp/screens/splash/splash_screen.dart';
 import 'package:ecommerceapp/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'blocs/wishlist/wishlist_bloc.dart';
 import 'blocs/wishlist/wishlist_event.dart';
 import '/config/theme.dart';
@@ -50,10 +52,11 @@ class MyApp extends StatelessWidget {
             )..add(LoadProducts()),
           ),
         ],
-        child: MaterialApp(
+        child: GetMaterialApp(
           title: 'Online Shopping',
           debugShowCheckedModeBanner: false,
           theme: theme(),
+          home: HomeScreen(),
           onGenerateRoute: AppRouter.onGenerateRoute,
           initialRoute: HomeScreen.routeName,
         ),

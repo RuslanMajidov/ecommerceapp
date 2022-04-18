@@ -1,6 +1,7 @@
 import 'package:ecommerceapp/blocs/wishlist/wishlist_bloc.dart';
 import 'package:ecommerceapp/blocs/wishlist/wishlist_state.dart';
 import 'package:ecommerceapp/models/models.dart';
+import 'package:ecommerceapp/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../widgets/custom_appbar.dart';
@@ -12,7 +13,7 @@ class WishListSCreen extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute(
         settings: RouteSettings(name: routeName),
-        builder: (context) => WishListSCreen());
+        builder: (context) => HomeScreen());
   }
 
   @override

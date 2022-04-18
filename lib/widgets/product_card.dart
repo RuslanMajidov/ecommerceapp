@@ -31,41 +31,44 @@ class ProductCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(3.0),
         ),
         width: MediaQuery.of(context).size.width / 2.5,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Image.network(
-              product.imageUrl,
-              width: double.maxFinite,
-              fit: BoxFit.cover,
-              height: 150,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    product.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5!
-                        .copyWith(color: Colors.black),
-                  ),
-                  Text(
-                    '\$${Product.products[0].price}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5!
-                        .copyWith(color: Colors.black),
-                  ),
-                ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(
+                product.imageUrl,
+                width: double.maxFinite,
+                fit: BoxFit.cover,
+                height: 150,
               ),
-            ),
-          ],
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5!
+                          .copyWith(color: Colors.black),
+                    ),
+                    Text(
+                      '\$${Product.products[0].price}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5!
+                          .copyWith(color: Colors.black),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
