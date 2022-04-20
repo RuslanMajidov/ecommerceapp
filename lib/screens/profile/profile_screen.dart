@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,7 +50,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
   }
 
-  bool isObscurePassword = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,14 +59,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Profile',
               style: TextStyle(
                 fontSize: 22,
               ),
             ),
             IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.edit,
                 color: Colors.white,
               ),
@@ -119,14 +117,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(
               height: 20,
             ),
-            SizedBox(
-              height: 10,
-            ),
-            buildTextField("Full name", "Anbe", false),
-            buildTextField("Email", "anbe@gmail.com", false),
-            buildTextField("Password", "******", true),
-            buildTextField("Location", "Kathmandu", false),
-            buildTextField("Birthday", "21st March,2020", false)
+            buildTextField("Full name", "", false),
+            buildTextField("Email", "", false),
+            buildTextField("Location", "", false),
+            buildTextField("Birthday", "", false)
           ],
         ),
       ),
@@ -139,21 +133,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Padding(
         padding: EdgeInsets.only(bottom: 30),
         child: TextField(
-          obscureText: isPasswordTextField ? isObscurePassword : false,
           decoration: InputDecoration(
-              suffixIcon: isPasswordTextField
-                  ? IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.remove_red_eye,
-                        color: Colors.grey,
-                      ))
-                  : null,
               contentPadding: EdgeInsets.only(bottom: 5),
               labelText: labelText,
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              hintText: placeholder,
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,

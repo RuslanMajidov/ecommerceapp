@@ -1,8 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+import 'package:path/path.dart';
 
 class EditProfile extends StatefulWidget {
   static const String routeName = '/editprofile';
@@ -14,176 +15,144 @@ class EditProfile extends StatefulWidget {
   }
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
 class _EditProfileState extends State<EditProfile> {
+  ImagePicker _imagepicker = ImagePicker();
+  File? _image;
+
+  bool isObscurePassword = true;
+
   @override
-  File? pickedImage;
-  void imagePickerOption() {
-    Get.bottomSheet(
-      SingleChildScrollView(
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(10.0),
-            topRight: Radius.circular(10.0),
-          ),
-          child: Container(
-            color: Colors.white,
-            height: 250,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text(
-                        "Upload Image",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Please upload a picture from camera or gallery',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      pickImage(ImageSource.camera);
-                    },
-                    icon: const Icon(Icons.camera),
-                    label: const Text(
-                      "CAMERA",
-                    ),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      pickImage(ImageSource.gallery);
-                    },
-                    icon: const Icon(Icons.image),
-                    label: const Text("GALLERY"),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(Icons.close),
-                    label: const Text(
-                      "CANCEL",
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  pickImage(ImageSource imageType) async {
-    try {
-      final photo = await ImagePicker().pickImage(source: imageType);
-      if (photo == null) return;
-      final tempImage = File(photo.path);
-      setState(() {
-        pickedImage = tempImage;
-      });
-
-      Get.back();
-    } catch (error) {
-      debugPrint(error.toString());
-    }
+  void initState() {
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    Future getImage() async {
+      // var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+      _imagepicker.pickImage(source: ImageSource.gallery);
+      setState(() {
+        _image = _image as File;
+        print('Image Path $_image');
+      });
+    }
+
+    Future uploadPic(BuildContext context) async {
+      String fileName = basename(_image!.path);
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref = storage.ref().child("image" + DateTime.now().toString());
+      UploadTask uploadTask = ref.putFile(_image!);
+      uploadTask.then((res) {
+        res.ref.getDownloadURL();
+        setState(() {
+          print("Profile Picture uploaded");
+          Scaffold.of(context).showSnackBar(
+              SnackBar(content: Text('Profile Picture Uploaded')));
+        });
+      });
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange.shade700,
-        title: Container(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Edit Profile',
-              style: TextStyle(fontSize: 22),
-            ),
-          ],
-        )),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.indigo, width: 5),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(100),
-                    ),
+        appBar: AppBar(
+          leading: IconButton(
+              icon: Icon(FontAwesomeIcons.arrowLeft),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          title: Text('Edit Profile'),
+        ),
+        body: SingleChildScrollView(
+          child: Builder(
+            builder: (context) => Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  SizedBox(
+                    height: 20.0,
                   ),
-                  child: ClipOval(
-                    child: pickedImage != null
-                        ? Image.file(
-                            pickedImage!,
-                            width: 170,
-                            height: 170,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.network(
-                            'https://thumbs.dreamstime.com/b/default-avatar-profile-image-vector-social-media-user-icon-potrait-182347582.jpg',
-                            width: 170,
-                            height: 170,
-                            fit: BoxFit.cover,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.center,
+                        child: CircleAvatar(
+                          radius: 100,
+                          backgroundColor: Color(0xff476cfb),
+                          child: ClipOval(
+                            child: SizedBox(
+                              width: 180.0,
+                              height: 180.0,
+                              child: (_image == null)
+                                  ? Image.network(
+                                      "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                      fit: BoxFit.fill,
+                                    )
+                                  : Image.file(
+                                      _image!,
+                                      fit: BoxFit.fill,
+                                    ),
+                            ),
                           ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 60.0),
+                        child: IconButton(
+                          icon: Icon(
+                            FontAwesomeIcons.camera,
+                            size: 30.0,
+                          ),
+                          onPressed: () {
+                            getImage();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 5,
-                  child: IconButton(
-                    onPressed: imagePickerOption,
-                    icon: const Icon(
-                      Icons.add_a_photo_outlined,
-                      color: Colors.blue,
-                      size: 30,
-                    ),
+                  SizedBox(
+                    height: 30.0,
                   ),
-                ),
-              ],
+                  buildTextField("Full name", "Anbesha", false),
+                  buildTextField("Email", "anbeshathapa@gmail.com", false),
+                  buildTextField("Password", "******", true),
+                  buildTextField("Location", "Kathmandu", false),
+                  buildTextField("Birthday", "21st March,2020", false)
+                ],
+              ),
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton.icon(
-                onPressed: imagePickerOption,
-                icon: const Icon(Icons.add_a_photo_sharp),
-                label: const Text('UPLOAD IMAGE')),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-        ],
+        ));
+  }
+
+  Widget buildTextField(
+      String labelText, String placeholder, bool isPasswordTextField) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 30),
+        child: TextField(
+          obscureText: isPasswordTextField ? isObscurePassword : false,
+          decoration: InputDecoration(
+              suffixIcon: isPasswordTextField
+                  ? IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.remove_red_eye,
+                        color: Colors.grey,
+                      ))
+                  : null,
+              contentPadding: EdgeInsets.only(bottom: 5),
+              labelText: labelText,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              hintText: placeholder,
+              hintStyle: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+              )),
+        ),
       ),
     );
   }
