@@ -7,3 +7,4 @@ export 'splash/splash_screen.dart';
 export 'wishlist/wishlist_screen.dart';
 export 'product/all_products.dart';
 export 'profile/profile_screen.dart';
+export 'checkout/checkout_screen.dart';

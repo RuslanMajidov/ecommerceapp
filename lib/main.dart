@@ -1,6 +1,7 @@
 import 'package:ecommerceapp/repositories/category/category_repository.dart';
 
 import 'package:ecommerceapp/repositories/product/product_repository.dart';
+import 'package:ecommerceapp/screens/checkout/checkout_screen.dart';
 import 'package:ecommerceapp/screens/home/home_screen.dart';
 import 'package:ecommerceapp/screens/profile/profile_screen.dart';
 import 'package:ecommerceapp/screens/splash/splash_screen.dart';
@@ -58,7 +59,7 @@ class MyApp extends StatelessWidget {
           theme: theme(),
           home: HomeScreen(),
           onGenerateRoute: AppRouter.onGenerateRoute,
-          initialRoute: HomeScreen.routeName,
+          initialRoute: CheckoutScreen.routeName,
         ),
       ),
     );

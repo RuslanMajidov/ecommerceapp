@@ -29,6 +29,8 @@ class AppRouter {
         return ProfileScreen.route();
       case EditProfile.routeName:
         return EditProfile.route();
+      case CheckoutScreen.routeName:
+        return CheckoutScreen.route();
 
       default:
         return _errorRoute();

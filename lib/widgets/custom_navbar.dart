@@ -44,13 +44,22 @@ class CustomNavBar extends StatelessWidget {
               ),
               IconButton(
                 icon: Icon(
+                  Icons.check_circle_outlined,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/checkout');
+                },
+              ),
+              IconButton(
+                icon: Icon(
                   Icons.person,
                   color: Colors.white,
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/profile');
                 },
-              )
+              ),
             ],
           ),
         ),
