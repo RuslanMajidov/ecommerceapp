@@ -1,6 +1,10 @@
+import 'package:ecommerceapp/cubits/login/login_cubit.dart';
 import 'package:ecommerceapp/repositories/category/category_repository.dart';
 
 import 'package:ecommerceapp/repositories/product/product_repository.dart';
+import 'package:ecommerceapp/screens/authentication/bloc/login_bloc.dart';
+import 'package:ecommerceapp/screens/authentication/cubits/auth_cubit.dart';
+import 'package:ecommerceapp/screens/authentication/login_screen.dart';
 import 'package:ecommerceapp/screens/checkout/checkout_screen.dart';
 import 'package:ecommerceapp/screens/home/home_screen.dart';
 import 'package:ecommerceapp/screens/profile/profile_screen.dart';
@@ -18,6 +22,7 @@ import '/config/app_router.dart';
 import 'blocs/category/category_bloc.dart';
 import 'blocs/category/category_event.dart';
 import 'blocs/product/product_bloc.dart';
+import 'cubits/signup/signup_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,7 +64,7 @@ class MyApp extends StatelessWidget {
           theme: theme(),
           home: HomeScreen(),
           onGenerateRoute: AppRouter.onGenerateRoute,
-          initialRoute: CheckoutScreen.routeName,
+          initialRoute: LoginScreen.routeName,
         ),
       ),
     );

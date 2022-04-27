@@ -290,7 +290,6 @@
 //
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerceapp/net/database.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

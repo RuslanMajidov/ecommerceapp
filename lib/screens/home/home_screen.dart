@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Online Shopping',
+        title: 'Welcome',
       ),
       backgroundColor: Colors.orange.shade600,
       bottomNavigationBar: CustomNavBar(),
