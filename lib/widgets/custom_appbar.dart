@@ -35,21 +35,43 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                           fontWeight: FontWeight.bold,
                         )),
                   ),
-                  Container(
-                    height: 35,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: TextButton(
-                        onPressed: () {
-                          logout(context);
-                        },
-                        child: Text(
-                          'Logout',
-                          style: TextStyle(color: Colors.black),
-                        )),
-                  ),
+                  ActionChip(
+                      label: Text("Logout"),
+                      onPressed: () {
+                        logout(context);
+                      }),
+                  Stack(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(1),
+                                  spreadRadius: 0.1,
+                                  blurRadius: 0.1,
+                                  offset: Offset(0, 1))
+                            ]),
+                        child: Icon(
+                          Icons.logout,
+                          color: Colors.orange,
+                        ),
+                      ),
+                      Positioned(
+                          right: 10,
+                          top: 10,
+                          child: Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              color: Colors.orange,
+                              shape: BoxShape.circle,
+                            ),
+                          )),
+                    ],
+                  )
                 ],
               ),
               SizedBox(

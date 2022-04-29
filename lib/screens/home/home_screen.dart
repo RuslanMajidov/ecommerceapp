@@ -1,9 +1,13 @@
+import 'dart:async';
+
+import 'package:ecommerceapp/screens/authentication/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/category_models.dart';
@@ -26,32 +30,46 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String email = "";
+  late String finalEmail;
 
-  Future getEmail() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
+  // Future getEmail() async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     email = preferences.getString('email')!;
+  //   });
+  // }
+
+  Future getValidationData() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
+    var obtainedEmail = sharedPreferences.getString('email');
     setState(() {
-      email = preferences.getString('email')!;
+      finalEmail = obtainedEmail!;
     });
+    print(finalEmail);
   }
 
-  Future logout(BuildContext context) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.remove('email');
-    Fluttertoast.showToast(msg: "Logout Successful");
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(),
-      ),
-    );
-  }
+  // Future logout(BuildContext context) async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   preferences.remove('email');
+  //   Fluttertoast.showToast(msg: "Logout Successful");
+  //   Navigator.of(context)
+  //       .pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => HomeScreen(),
+  //     ),
+  //   );
+  // }
 
   @override
   void initState() {
+    getValidationData().whenComplete(() async {
+      Timer(Duration(seconds: 2),
+          () => Get.to(finalEmail == null ? LoginScreen() : HomeScreen()));
+    });
     super.initState();
-    getEmail();
   }
 
   @override

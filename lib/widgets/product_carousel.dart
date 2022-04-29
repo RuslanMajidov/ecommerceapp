@@ -22,6 +22,7 @@ class ProductCarousel extends StatelessWidget {
               mainAxisSpacing: 8,
               crossAxisSpacing: 8),
           shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.symmetric(
             horizontal: 10.0,
             vertical: 5.0,
