@@ -2,11 +2,10 @@ import 'package:ecommerceapp/screens/authentication/register_screen.dart';
 import 'package:ecommerceapp/screens/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../cubits/cubits.dart';
-import '/widgets/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
@@ -27,6 +26,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   final _auth = FirebaseAuth.instance;
+
+  String email = "anbesha1@gmail.com";
+  String password = "123456";
+
+  Future checkLogin() async {
+    if (emailController.text == email && passwordController.text == password) {
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      preferences.setString('email', emailController.text);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +98,12 @@ class _LoginScreenState extends State<LoginScreen> {
       child: MaterialButton(
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {
+        onPressed: () async {
           signIn(emailController.text, passwordController.text);
+          final SharedPreferences sharedPreferences =
+              await SharedPreferences.getInstance();
+          sharedPreferences.setString('email', emailController.text);
+          Get.to(HomeScreen());
           // Navigator.push(
           //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
         },
@@ -117,12 +130,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                      height: 200,
-                      child: Image.asset(
-                        "asset/logo.png",
-                        fit: BoxFit.contain,
-                      ),
+                    Image.asset(
+                      "assets/logo.png",
+                      fit: BoxFit.contain,
                     ),
                     SizedBox(
                       height: 45,
@@ -172,9 +182,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void signIn(String email, String password) async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var email = preferences.getString('email');
     if (_formkey.currentState!.validate()) {
       await _auth
-          .signInWithEmailAndPassword(email: email, password: password)
+          .signInWithEmailAndPassword(
+              email: emailController.text, password: password)
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Successful"),
                 Navigator.of(context).pushReplacement(

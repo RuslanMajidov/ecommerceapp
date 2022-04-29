@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
-import '../../blocs/category/category_bloc.dart';
-import '../../blocs/category/category_state.dart';
-import '../../blocs/product/product_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../models/category_models.dart';
 import '../../models/product_model.dart';
 import '/widgets/widgets.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const String routeName = '/';
 
   static Route route() {
@@ -18,6 +18,40 @@ class HomeScreen extends StatelessWidget {
       settings: RouteSettings(name: routeName),
       builder: (_) => HomeScreen(),
     );
+  }
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  String email = "";
+
+  Future getEmail() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      email = preferences.getString('email')!;
+    });
+  }
+
+  Future logout(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove('email');
+    Fluttertoast.showToast(msg: "Logout Successful");
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(),
+      ),
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getEmail();
   }
 
   @override

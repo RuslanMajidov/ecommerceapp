@@ -217,6 +217,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerceapp/config/app_router.dart';
 import 'package:ecommerceapp/model/user_model.dart';
+import 'package:ecommerceapp/screens/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -294,7 +295,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Plase enter your email");
+          return ("Please enter your email");
         }
         if (!RegExp(
                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
@@ -482,7 +483,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     Fluttertoast.showToast(msg: "Account created successfully :) ");
     Navigator.pushAndRemoveUntil(
         (context),
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
         (route) => false);
   }
 }

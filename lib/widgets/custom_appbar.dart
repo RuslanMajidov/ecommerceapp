@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../screens/authentication/login_screen.dart';
 
 class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   final String title;
@@ -32,38 +35,21 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                           fontWeight: FontWeight.bold,
                         )),
                   ),
-                  Stack(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.withOpacity(1),
-                                  spreadRadius: 0.1,
-                                  blurRadius: 0.1,
-                                  offset: Offset(0, 1))
-                            ]),
-                        child: Icon(
-                          Icons.shopping_cart_outlined,
-                          color: Colors.orange,
-                        ),
-                      ),
-                      Positioned(
-                          right: 10,
-                          top: 10,
-                          child: Container(
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                              color: Colors.orange,
-                              shape: BoxShape.circle,
-                            ),
-                          ))
-                    ],
-                  )
+                  Container(
+                    height: 35,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    child: TextButton(
+                        onPressed: () {
+                          logout(context);
+                        },
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(color: Colors.black),
+                        )),
+                  ),
                 ],
               ),
               SizedBox(
@@ -122,6 +108,12 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
     );
   }
+}
+
+Future<void> logout(BuildContext context) async {
+  await FirebaseAuth.instance.signOut();
+  Navigator.of(context)
+      .pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
 }
 
 class MySearchDelegate extends SearchDelegate {
