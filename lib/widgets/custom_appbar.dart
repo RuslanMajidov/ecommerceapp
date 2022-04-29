@@ -10,122 +10,119 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
     required this.title,
   }) : super(key: key);
   @override
-  Size get preferredSize => Size.fromHeight(170.0);
+  Size get preferredSize => Size.fromHeight(180.0);
 
   get tagsList => ['Shoes', 'Hand-Bag', 'Ornaments', 'Goggles'];
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                        'IF YOU CANT STOP THINKING\nABOUT IT..\nBUY IT 🛍️',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                  ActionChip(
-                      label: Text("Logout"),
-                      onPressed: () {
-                        logout(context);
-                      }),
-                  Stack(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
+      child: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child:
+                      Text('IF YOU CANT STOP THINKING\nABOUT IT..\nBUY IT 🛍️',
+                          style: TextStyle(
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.grey.withOpacity(1),
-                                  spreadRadius: 0.1,
-                                  blurRadius: 0.1,
-                                  offset: Offset(0, 1))
-                            ]),
-                        child: Icon(
-                          Icons.logout,
-                          color: Colors.orange,
-                        ),
-                      ),
-                      Positioned(
-                          right: 10,
-                          top: 10,
-                          child: Container(
-                            width: 10,
-                            height: 10,
-                            decoration: BoxDecoration(
-                              color: Colors.orange,
-                              shape: BoxShape.circle,
-                            ),
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
                           )),
-                    ],
-                  )
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Column(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      showSearch(
-                        context: context,
-                        delegate: MySearchDelegate(),
-                      );
-                    },
-                    child: Container(
-                      width: double.maxFinite,
+                ),
+                ActionChip(
+                    label: Text(""),
+                    onPressed: () {
+                      logout(context);
+                    }),
+                Stack(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          color: Colors.grey[100],
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey, width: 2)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Row(
-                          children: [
-                            const Icon(
-                              Icons.search,
-                              size: 17,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              'Search here...',
-                              style: TextStyle(
-                                  color: Colors.grey[700], fontSize: 14),
-                            ),
-                          ],
-                        ),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.orange.withOpacity(1),
+                                spreadRadius: 0.1,
+                                blurRadius: 0.1,
+                                offset: Offset(0, 1))
+                          ]),
+                      child: Icon(
+                        Icons.logout,
+                        color: Colors.orange,
+                      ),
+                    ),
+                    Positioned(
+                        right: 10,
+                        top: 10,
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: Colors.orange,
+                            shape: BoxShape.circle,
+                          ),
+                        )),
+                  ],
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Column(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    showSearch(
+                      context: context,
+                      delegate: MySearchDelegate(),
+                    );
+                  },
+                  child: Container(
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey, width: 2)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.search,
+                            size: 17,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            'Search here...',
+                            style: TextStyle(
+                                color: Colors.grey[700], fontSize: 14),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  // Row(
-                  //   children: [
-                  //     tagsList
-                  //         .map((e) => Container(
-                  //               child: Text(e),
-                  //             ))
-                  //         .toList(),
-                  //   ],
-                  // )
-                ],
-              ),
-            ],
-          ),
+                ),
+                // Row(
+                //   children: [
+                //     tagsList
+                //         .map((e) => Container(
+                //               child: Text(e),
+                //             ))
+                //         .toList(),
+                //   ],
+                // )
+              ],
+            ),
+          ],
         ),
       ),
     );
