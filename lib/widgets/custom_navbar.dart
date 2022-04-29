@@ -9,7 +9,7 @@ class CustomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       child: BottomAppBar(
-        color: Colors.orange.shade400,
+        color: Colors.redAccent,
         child: Container(
           height: 60,
           child: Row(

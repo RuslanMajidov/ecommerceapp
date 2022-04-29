@@ -28,7 +28,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                   child:
                       Text('IF YOU CANT STOP THINKING\nABOUT IT..\nBUY IT 🛍️',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.redAccent,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           )),

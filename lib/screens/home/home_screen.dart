@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: CustomAppBar(
         title: 'Welcome',
       ),
-      backgroundColor: Colors.orange.shade600,
+      backgroundColor: Colors.white,
       bottomNavigationBar: CustomNavBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -90,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 viewportFraction: 0.9,
                 enlargeCenterPage: true,
                 enlargeStrategy: CenterPageEnlargeStrategy.height,
+                autoPlay: true,
               ),
               items: Category.categories
                   .map((category) => HeroCarouselCard(category: category))
@@ -104,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     'Products',
                     style: const TextStyle(
                       fontSize: 22.0,
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -113,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         text: 'See All',
                         style: const TextStyle(
                           fontSize: 22.0,
-                          color: Colors.white,
+                          color: Colors.green,
                           fontWeight: FontWeight.bold,
                         ),
                         recognizer: TapGestureRecognizer()

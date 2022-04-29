@@ -1,5 +1,6 @@
 import 'package:ecommerceapp/widgets/product_card.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../models/product_model.dart';
 
@@ -29,11 +30,25 @@ class ProductCarousel extends StatelessWidget {
         itemCount: 10,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-              child: ProductCard(
-                product: products[index],
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(3.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x18000000),
+                    spreadRadius: 1,
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              // padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                child: ProductCard(
+                  product: products[index],
+                ),
               ),
             ),
           );
