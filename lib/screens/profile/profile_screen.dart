@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.redAccent,
         title: Container(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

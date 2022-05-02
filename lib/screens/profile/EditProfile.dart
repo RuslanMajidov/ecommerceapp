@@ -91,6 +91,8 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('Edit Profile'),
+        backgroundColor: Colors.redAccent,
         actions: [
           PopupMenuButton<MenuItem>(
               onSelected: (item) => onSelected(context, item),
@@ -243,7 +245,7 @@ class _EditProfileState extends State<EditProfile> {
                     height: 40,
                     width: double.maxFinite,
                     decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: Colors.redAccent,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextButton(

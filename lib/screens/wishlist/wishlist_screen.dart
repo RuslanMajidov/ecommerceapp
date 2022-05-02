@@ -13,19 +13,19 @@ class WishListSCreen extends StatelessWidget {
   static Route route() {
     return MaterialPageRoute(
         settings: RouteSettings(name: routeName),
-        builder: (context) => HomeScreen());
+        builder: (context) => WishListSCreen());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFF2F323E),
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: Text(
             'WishList',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          backgroundColor: Color(0xFFDCD4E1).withOpacity(0.08),
+          backgroundColor: Colors.redAccent,
         ),
         bottomNavigationBar: CustomNavBar(),
         body: BlocBuilder<WishListBloc, WishListState>(

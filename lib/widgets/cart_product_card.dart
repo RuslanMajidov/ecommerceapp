@@ -27,14 +27,14 @@ class CartProductCard extends StatelessWidget {
               children: [
                 Text(
                   product.name,
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
                 Text(
                   '\$${product.price}',
                   style: Theme.of(context)
                       .textTheme
                       .headline6!
-                      .copyWith(color: Colors.white),
+                      .copyWith(color: Colors.black),
                 )
               ],
             ),

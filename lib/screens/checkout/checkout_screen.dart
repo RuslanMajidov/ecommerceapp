@@ -22,6 +22,7 @@ class CheckoutScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Checkout'),
+        backgroundColor: Colors.redAccent,
       ),
       bottomNavigationBar: CustomNavBar(),
       body: Padding(

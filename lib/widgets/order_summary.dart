@@ -25,14 +25,14 @@ class OrderSummary extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
-                        .copyWith(color: Colors.white),
+                        .copyWith(color: Colors.black),
                   ),
                   Text(
                     '\$${Cart().subtotalString}',
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
-                        .copyWith(color: Colors.white),
+                        .copyWith(color: Colors.black),
                   ),
                 ],
               ),
@@ -45,14 +45,14 @@ class OrderSummary extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
-                        .copyWith(color: Colors.white),
+                        .copyWith(color: Colors.black),
                   ),
                   Text(
                     '\$${Cart().deliveryFeeString}',
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
-                        .copyWith(color: Colors.white),
+                        .copyWith(color: Colors.black),
                   ),
                 ],
               ),

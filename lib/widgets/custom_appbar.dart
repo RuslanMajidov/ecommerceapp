@@ -29,7 +29,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                       Text('IF YOU CANT STOP THINKING\nABOUT IT..\nBUY IT 🛍️',
                           style: TextStyle(
                             color: Colors.redAccent,
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           )),
                 ),
@@ -89,13 +89,14 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                     decoration: BoxDecoration(
                         color: Colors.grey[100],
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey, width: 2)),
+                        border: Border.all(color: Colors.redAccent, width: 2)),
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Row(
                         children: [
                           const Icon(
                             Icons.search,
+                            color: Colors.redAccent,
                             size: 17,
                           ),
                           SizedBox(

@@ -16,7 +16,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.orange.shade700,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Cart',
@@ -25,7 +25,7 @@ class CartScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: Color(0xFFDCD4E1).withOpacity(0.08),
+        backgroundColor: Colors.redAccent,
       ),
       bottomNavigationBar: BottomAppBar(
         color: Color(0xFFDCD4E1).withOpacity(0.08),
@@ -60,14 +60,14 @@ class CartScreen extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .headline5!
-                            .copyWith(color: Colors.white),
+                            .copyWith(color: Colors.black),
                       ),
                       ElevatedButton(
                           onPressed: () {
                             Navigator.pushNamed(context, '/');
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.white,
+                            primary: Colors.grey,
                             shape: RoundedRectangleBorder(),
                             elevation: 0,
                           ),
@@ -83,7 +83,9 @@ class CartScreen extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  CartProductCard(product: Product.products[2]),
+                  CartProductCard(
+                    product: Product.products[2],
+                  ),
                   OrderSummary(),
                   SizedBox(
                     height: 390,
@@ -91,7 +93,8 @@ class CartScreen extends StatelessWidget {
                       itemCount: Cart().products.length,
                       itemBuilder: (context, index) {
                         return CartProductCard(
-                            product: Product.products[index]);
+                          product: Product.products[index],
+                        );
                       },
                     ),
                   ),
