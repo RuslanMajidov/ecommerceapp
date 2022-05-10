@@ -27,7 +27,6 @@ class WishListSCreen extends StatelessWidget {
           ),
           backgroundColor: Colors.redAccent,
         ),
-        bottomNavigationBar: CustomNavBar(),
         body: BlocBuilder<WishListBloc, WishListState>(
           builder: (context, state) {
             if (state is WishListLoading) {

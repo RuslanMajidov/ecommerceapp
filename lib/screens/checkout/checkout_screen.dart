@@ -24,7 +24,6 @@ class CheckoutScreen extends StatelessWidget {
         title: const Text('Checkout'),
         backgroundColor: Colors.redAccent,
       ),
-      bottomNavigationBar: CustomNavBar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(

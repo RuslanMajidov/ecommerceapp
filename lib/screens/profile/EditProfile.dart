@@ -1,12 +1,12 @@
-import 'package:ecommerceapp/models/menu_item.dart';
-import 'package:ecommerceapp/screens/authentication/login_screen.dart';
-
+import 'package:ecommerceapp/model/user_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:path/path.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfile extends StatefulWidget {
   static const String routeName = '/editprofile';
@@ -27,26 +27,13 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _phonenumberController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _dateofbirthController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   FirebaseStorage storage = FirebaseStorage.instance;
   File? file;
   File? _photo;
   final ImagePicker _picker = ImagePicker();
-
-  PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem(
-        value: item,
-        child: Row(
-          children: [
-            Icon(
-              item.icon,
-              color: Colors.black,
-              size: 20,
-            ),
-            const SizedBox(width: 12),
-            Text(item.text),
-          ],
-        ),
-      );
 
   Future imgFromGallery() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -87,24 +74,34 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
+  static Future<UserModel> getUserProfile() async {
+    UserModel model = UserModel();
+
+    var currentUID = FirebaseAuth.instance.currentUser;
+    var data = await FirebaseFirestore.instance
+        .collection('users')
+        .doc('${currentUID}')
+        .get();
+    if (data.exists) {
+      return model;
+    } else if (data.data()?.length == 1) {
+      return model;
+    }
+    model = model.toMap() as UserModel;
+    return model;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
         title: Text('Edit Profile'),
         backgroundColor: Colors.redAccent,
-        actions: [
-          PopupMenuButton<MenuItem>(
-              onSelected: (item) => onSelected(context, item),
-              itemBuilder: (context) => [
-                    ...MenuItems.itemsFirst.map(buildItem).toList(),
-                    PopupMenuDivider(),
-                    ...MenuItems.itemsSecond.map(buildItem).toList(),
-                  ])
-        ],
       ),
       body: SingleChildScrollView(
         child: Form(
+          key: _formKey,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(8, 40, 8, 8),
             child: Column(
@@ -143,7 +140,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 // ProfileView()
                 Divider(
-                  height: 50,
+                  height: 60,
                   color: Colors.blue,
                 ),
                 TextFormField(
@@ -249,7 +246,9 @@ class _EditProfileState extends State<EditProfile> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/profile');
+                        },
                         child: const Text(
                           'Proceed',
                           style: TextStyle(color: Colors.white),
@@ -277,13 +276,12 @@ class _EditProfileState extends State<EditProfile> {
                       Navigator.of(context).pop();
                     }),
                 ListTile(
-                  leading: const Icon(Icons.photo_camera),
-                  title: const Text('Camera'),
-                  onTap: () {
-                    imgFromCamera();
-                    Navigator.of(context).pop();
-                  },
-                ),
+                    leading: const Icon(Icons.photo_camera),
+                    title: const Text('Camera'),
+                    onTap: () {
+                      imgFromCamera();
+                      Navigator.of(context).pop();
+                    })
               ],
             ),
           );
@@ -292,27 +290,4 @@ class _EditProfileState extends State<EditProfile> {
       height: 10,
     );
   }
-
-  void onSelected(BuildContext context, MenuItem item) {
-    switch (item) {
-      case MenuItems.itemLogout:
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => LoginScreen()),
-          (route) => false,
-        );
-    }
-  }
-}
-
-class MenuItems {
-  static const List<MenuItem> itemsFirst = [
-    itemSettings,
-    itemShare,
-  ];
-  static const List<MenuItem> itemsSecond = [
-    itemLogout,
-  ];
-  static const itemSettings = MenuItem(text: 'Settings', icon: Icons.settings);
-  static const itemShare = MenuItem(text: 'Share', icon: Icons.share);
-  static const itemLogout = MenuItem(text: 'Logout', icon: Icons.logout);
 }

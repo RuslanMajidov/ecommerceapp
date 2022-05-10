@@ -1,8 +1,6 @@
 import 'package:ecommerceapp/repositories/category/category_repository.dart';
 
 import 'package:ecommerceapp/repositories/product/product_repository.dart';
-import 'package:ecommerceapp/screens/authentication/bloc/login_bloc.dart';
-import 'package:ecommerceapp/screens/authentication/cubits/auth_cubit.dart';
 import 'package:ecommerceapp/screens/authentication/login_screen.dart';
 import 'package:ecommerceapp/screens/checkout/checkout_screen.dart';
 import 'package:ecommerceapp/screens/home/home_screen.dart';

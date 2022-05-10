@@ -1,7 +1,11 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../models/menu_item.dart';
+import '../authentication/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String routeName = '/profile';
@@ -18,6 +22,23 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File? pickedImage;
+  User? currentUser;
+
+  PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem(
+        value: item,
+        child: Row(
+          children: [
+            Icon(
+              item.icon,
+              color: Colors.black,
+              size: 20,
+            ),
+            const SizedBox(width: 12),
+            Text(item.text),
+          ],
+        ),
+      );
+
   void imagePickerOption() {
     Get.bottomSheet(
       SingleChildScrollView(
@@ -52,14 +73,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    currentUser = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
+        actions: [
+          PopupMenuButton<MenuItem>(
+              onSelected: (item) => onSelected(context, item),
+              itemBuilder: (context) => [
+                    ...MenuItems.itemsFirst.map(buildItem).toList(),
+                    PopupMenuDivider(),
+                    ...MenuItems.itemsSecond.map(buildItem).toList(),
+                  ])
+        ],
         title: Container(
             child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               'Profile',
               style: TextStyle(
                 fontSize: 22,
@@ -117,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(
               height: 20,
             ),
-            buildTextField("Full name", "", false),
+            buildTextField("Full name", "currentUser?.email ?? ''", false),
             buildTextField("Email", "", false),
             buildTextField("Location", "", false),
             buildTextField("Birthday", "", false)
@@ -146,4 +177,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  void onSelected(BuildContext context, MenuItem item) {
+    switch (item) {
+      case MenuItems.itemLogout:
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => LoginScreen()),
+          (route) => false,
+        );
+    }
+  }
+}
+
+class MenuItems {
+  static const List<MenuItem> itemsFirst = [
+    itemSettings,
+    itemShare,
+  ];
+  static const List<MenuItem> itemsSecond = [
+    itemLogout,
+  ];
+  static const itemSettings = MenuItem(text: 'Settings', icon: Icons.settings);
+  static const itemShare = MenuItem(text: 'Share', icon: Icons.share);
+  static const itemLogout = MenuItem(text: 'Logout', icon: Icons.logout);
 }

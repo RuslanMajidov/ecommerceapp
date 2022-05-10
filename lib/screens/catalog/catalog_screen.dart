@@ -25,15 +25,14 @@ class CatalogScreen extends StatelessWidget {
         .where((product) => product.category == category.name)
         .toList();
     return Scaffold(
-      backgroundColor: Color(0xFF2F323E),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Catalog',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
         ),
-        backgroundColor: Color(0xFFDCD4E1).withOpacity(0.08),
+        backgroundColor: Colors.redAccent,
       ),
-      bottomNavigationBar: CustomNavBar(),
       body: GridView.builder(
           padding: const EdgeInsets.all(8),
           shrinkWrap: true,
@@ -46,7 +45,7 @@ class CatalogScreen extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return Center(
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(8),
                 child: ProductCard(
                   product: categoryProducts[index],
                   widthFactor: 1.1,

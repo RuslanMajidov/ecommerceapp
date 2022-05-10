@@ -64,13 +64,13 @@ class _HomeScreenState extends State<HomeScreen> {
   // }
 
   @override
-  void initState() {
-    getValidationData().whenComplete(() async {
-      Timer(Duration(seconds: 2),
-          () => Get.to(finalEmail == null ? LoginScreen() : HomeScreen()));
-    });
-    super.initState();
-  }
+  // void initState() {
+  //   getValidationData().whenComplete(() async {
+  //     Timer(Duration(seconds: 2),
+  //         () => Get.to(finalEmail == null ? LoginScreen() : HomeScreen()));
+  //   });
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,6 @@ class _HomeScreenState extends State<HomeScreen> {
         title: 'Welcome',
       ),
       backgroundColor: Colors.white,
-      bottomNavigationBar: CustomNavBar(),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Column(

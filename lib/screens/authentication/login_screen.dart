@@ -1,5 +1,6 @@
 import 'package:ecommerceapp/screens/authentication/register_screen.dart';
 import 'package:ecommerceapp/screens/home/home_screen.dart';
+import 'package:ecommerceapp/widgets/MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -103,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
           final SharedPreferences sharedPreferences =
               await SharedPreferences.getInstance();
           sharedPreferences.setString('email', emailController.text);
-          Get.to(HomeScreen());
+          Get.to(MainScreen());
           // Navigator.push(
           //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
         },
@@ -192,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Successful"),
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => HomeScreen())),
+                    MaterialPageRoute(builder: (context) => MainScreen())),
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
