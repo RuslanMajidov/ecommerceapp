@@ -234,11 +234,68 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
-  final firstNameEditingController = new TextEditingController();
-  final secondNameEditingController = new TextEditingController();
-  final emailNameEditingController = new TextEditingController();
-  final passwordNameEditingController = new TextEditingController();
-  final confirmPasswordEditingController = new TextEditingController();
+  final firstNameEditingController = TextEditingController();
+  final secondNameEditingController = TextEditingController();
+  final emailNameEditingController = TextEditingController();
+  final passwordNameEditingController = TextEditingController();
+  final confirmPasswordEditingController = TextEditingController();
+  final phoneEditingController = TextEditingController();
+  @override
+  void dispose() {
+    firstNameEditingController.dispose();
+    secondNameEditingController.dispose();
+    emailNameEditingController.dispose();
+    passwordNameEditingController.dispose();
+    confirmPasswordEditingController.dispose();
+    phoneEditingController.dispose();
+    super.dispose();
+  }
+
+  Future signUp(String email, String password) async {
+    if (_formKey.currentState!.validate()) {
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((value) => {
+                addUserDetails(
+                    firstNameEditingController.text,
+                    secondNameEditingController.text,
+                    emailNameEditingController.text,
+                    int.parse(phoneEditingController.text)),
+              })
+          .catchError((e) {
+        Fluttertoast.showToast(msg: e!.message);
+      });
+    }
+  }
+
+  Future addUserDetails(String firstname, String secondname, String email,
+      int phonenumber) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'first name': firstname,
+      'second name': secondname,
+      'email': email,
+      'phone': phonenumber,
+    });
+    User? user = _auth.currentUser;
+    UserModel userModel = UserModel();
+
+    userModel.uid = user?.uid;
+    userModel.firstname = firstname;
+    userModel.secondname = secondname;
+    userModel.email = user!.email;
+    userModel.phone = phonenumber as String?;
+
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid)
+        .set(userModel.toMap());
+    Fluttertoast.showToast(msg: "Account created successfully :) ");
+    Navigator.pushAndRemoveUntil(
+        (context),
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+        (route) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final firstNameField = TextFormField(
@@ -364,6 +421,29 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             borderRadius: BorderRadius.circular(10),
           )),
     );
+    final phoneField = TextFormField(
+      autofocus: false,
+      controller: phoneEditingController,
+      obscureText: true,
+      validator: (value) {
+        RegExp regex = new RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
+        if (!regex.hasMatch(value!))
+          return 'Enter Valid Phone Number';
+        else
+          return null;
+      },
+      onSaved: (value) {
+        phoneEditingController.text = value!;
+      },
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+          prefixIcon: Icon(Icons.call),
+          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+          hintText: "Phone no.",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          )),
+    );
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -409,16 +489,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                      height: 180,
-                      child: Image.asset(
-                        "asset/logo.png",
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 45,
-                    ),
                     firstNameField,
                     SizedBox(
                       height: 20,
@@ -439,6 +509,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(
                       height: 20,
                     ),
+                    phoneField,
+                    SizedBox(
+                      height: 20,
+                    ),
                     signUpButton,
                     SizedBox(
                       height: 15,
@@ -451,39 +525,5 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ),
     );
-  }
-
-  void signUp(String email, String password) async {
-    if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) => {
-                postDetailsToFirestore(),
-              })
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-      });
-    }
-  }
-
-  postDetailsToFirestore() async {
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-    User? user = _auth.currentUser;
-    UserModel userModel = UserModel();
-
-    userModel.email = user!.email;
-    userModel.uid = user.uid;
-    userModel.firstName = firstNameEditingController.text;
-    userModel.secondName = secondNameEditingController.text;
-
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
-    Fluttertoast.showToast(msg: "Account created successfully :) ");
-    Navigator.pushAndRemoveUntil(
-        (context),
-        MaterialPageRoute(builder: (context) => LoginScreen()),
-        (route) => false);
   }
 }

@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerceapp/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,9 +23,13 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  late UserModel usermodel;
   File? pickedImage;
   User? currentUser;
-
+  late TextEditingController phoneNumber;
+  late TextEditingController address;
+  late TextEditingController userName;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   PopupMenuItem<MenuItem> buildItem(MenuItem item) => PopupMenuItem(
         value: item,
         child: Row(
@@ -74,6 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     currentUser = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
@@ -148,7 +155,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             const SizedBox(
               height: 20,
             ),
-            buildTextField("Full name", "currentUser?.email ?? ''", false),
+            Text(
+              currentUser?.email ?? '',
+              style: TextStyle(
+                fontSize: 22,
+              ),
+            ),
+            buildTextField("Full name", currentUser?.email ?? '', false),
             buildTextField("Email", "", false),
             buildTextField("Location", "", false),
             buildTextField("Birthday", "", false)

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ecommerceapp/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:http/http.dart' as http;
 
 class EditProfile extends StatefulWidget {
   static const String routeName = '/editprofile';
@@ -22,11 +25,49 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _phonenumberController = TextEditingController();
-  final TextEditingController _genderController = TextEditingController();
-  final TextEditingController _dateofbirthController = TextEditingController();
+  final user = FirebaseAuth.instance.currentUser;
+  List<String> docIDs = [];
+  Future getDocId() async {
+    await FirebaseFirestore.instance.collection('users').get().then(
+          (snapshot) => snapshot.docs.forEach(
+            (document) {
+              print(document.reference);
+              docIDs.add(document.reference.id);
+            },
+          ),
+        );
+  }
+
+  @override
+  void initState() {
+    getDocId();
+    super.initState();
+  }
+
+  // getUserModel() async {
+  //   var response =
+  //       await http.get(Uri.https('jsonplaceholder.typicode.com', 'users'));
+  //   var jsonData = jsonDecode(response.body);
+  //   List<User> users = [];
+  //   for (var u in jsonData) {
+  //     User user = UserModel() as User;
+  //     users.add(user);
+  //   }
+  //   print(users.length);
+  //   return users;
+  // }
+  late UserModel userModel;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  final TextEditingController _usernameController = TextEditingController()
+    ..text = 'Anbesha';
+  final TextEditingController _emailController = TextEditingController()
+    ..text = 'anbeshathap@gmail.com';
+  final TextEditingController _phonenumberController = TextEditingController()
+    ..text = '9862329874';
+  final RegExp emailRegExpression = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
   final _formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
@@ -91,12 +132,18 @@ class _EditProfileState extends State<EditProfile> {
     return model;
   }
 
+  late String userUid;
+  void getUserUid() {
+    User? myUser = FirebaseAuth.instance.currentUser;
+    userUid = myUser!.uid;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text('Edit Profile'),
+        title: const Text('Edit Profile'),
         backgroundColor: Colors.redAccent,
       ),
       body: SingleChildScrollView(
@@ -139,11 +186,16 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ),
                 // ProfileView()
-                Divider(
-                  height: 60,
-                  color: Colors.blue,
-                ),
+                // Divider(
+                //   height: 60,
+                //   color: Colors.blue,
+                // ),
+                // Expanded(child: ListView.builder(itemBuilder :(context,index){
+                //   return ListTile(title: Text('name'),
+                //   );
+                // }))
                 TextFormField(
+                  obscureText: false,
                   controller: _usernameController,
                   autofocus: false,
                   validator: (value) {
@@ -163,6 +215,7 @@ class _EditProfileState extends State<EditProfile> {
                   height: 10,
                 ),
                 TextFormField(
+                  obscureText: false,
                   controller: _emailController,
                   autofocus: false,
                   validator: (value) {
@@ -197,47 +250,24 @@ class _EditProfileState extends State<EditProfile> {
                         borderRadius: BorderRadius.circular(10),
                       )),
                 ),
+                // Expanded(
+                //   child: FutureBuilder(
+                //     future: getDocId(),
+                //     builder: (context, snapshot) {
+                //       return ListView.builder(
+                //           itemCount: docIDs.length,
+                //           itemBuilder: (context, index) {
+                //             return ListTile(
+                //               title: GetUserName(documentId:docIDs[index]),
+                //             );
+                //           });
+                //     },
+                //   ),
+                // ),
                 const SizedBox(
                   height: 10,
                 ),
-                TextFormField(
-                  controller: _genderController,
-                  autofocus: false,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return ("Please enter your gender");
-                    }
-                  },
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      hintText: "Gender",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  controller: _dateofbirthController,
-                  autofocus: false,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return ("Please enter your dob");
-                    }
-                  },
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      hintText: "Date of Birth",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
+
                 Container(
                     height: 40,
                     width: double.maxFinite,
@@ -245,14 +275,20 @@ class _EditProfileState extends State<EditProfile> {
                       color: Colors.redAccent,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/profile');
-                        },
-                        child: const Text(
-                          'Proceed',
-                          style: TextStyle(color: Colors.white),
-                        ))),
+                    child: RaisedButton(
+                      color: Colors.redAccent,
+                      onPressed: () {
+                        // fnSaveProfile(
+                        //   username: _usernameController,
+                        //   email: _emailController,
+                        //   phonenumber: _phonenumberController,
+                        // );
+                      },
+                      child: const Text(
+                        'Proceed',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
               ],
             ),
           ),
@@ -260,6 +296,26 @@ class _EditProfileState extends State<EditProfile> {
       ),
     );
   }
+
+  // fnSaveProfile({
+  //   required TextEditingController username,
+  //   required TextEditingController email,
+  //   required TextEditingController phonenumber,
+  // }) {
+  //   FirebaseFirestore.instance.collection('users').doc().set({
+  //     'email': email,
+  //     'username': username,
+  //     'phonenumber': phonenumber,
+  //   }).then((value) {
+  //     scaffoldKey.currentState?.showSnackBar(SnackBar(
+  //         backgroundColor: Colors.green,
+  //         content: Text('Register $email profile completed')));
+  //   }).catchError((error) {
+  //     scaffoldKey.currentState?.showSnackBar(SnackBar(
+  //         backgroundColor: Colors.red,
+  //         content: Text('Register $email profile error')));
+  //   });
+  // }
 
   void _showPicker(context) {
     showModalBottomSheet(

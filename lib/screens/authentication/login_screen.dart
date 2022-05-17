@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String email = "anbesha1@gmail.com";
   String password = "123456";
+  String username = "Anbesha Thapa";
 
   Future checkLogin() async {
     if (emailController.text == email && passwordController.text == password) {
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Plase enter your email");
+          return ("Please enter your email");
         }
         if (!RegExp(
                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
