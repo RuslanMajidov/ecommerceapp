@@ -2,10 +2,7 @@ import 'package:ecommerceapp/repositories/category/category_repository.dart';
 
 import 'package:ecommerceapp/repositories/product/product_repository.dart';
 import 'package:ecommerceapp/screens/authentication/login_screen.dart';
-import 'package:ecommerceapp/screens/checkout/checkout_screen.dart';
 import 'package:ecommerceapp/screens/home/home_screen.dart';
-import 'package:ecommerceapp/screens/profile/profile_screen.dart';
-import 'package:ecommerceapp/screens/splash/splash_screen.dart';
 import 'package:ecommerceapp/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,7 +12,6 @@ import 'blocs/wishlist/wishlist_bloc.dart';
 import 'blocs/wishlist/wishlist_event.dart';
 import '/config/theme.dart';
 import '/config/app_router.dart';
-
 import 'blocs/category/category_bloc.dart';
 import 'blocs/category/category_event.dart';
 import 'blocs/product/product_bloc.dart';

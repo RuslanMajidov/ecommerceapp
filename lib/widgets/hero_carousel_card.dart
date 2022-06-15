@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this
+
 import 'package:ecommerceapp/models/models.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +15,6 @@ class HeroCarouselCard extends StatelessWidget {
         if (this.product == null) {
           Navigator.pushNamed(context, '/catalog', arguments: category);
         }
-        ;
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 15),
@@ -32,7 +33,7 @@ class HeroCarouselCard extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
+                        colors: const [
                           Color.fromARGB(200, 0, 0, 0),
                           Color.fromARGB(0, 0, 0, 0)
                         ],

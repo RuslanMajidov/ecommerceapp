@@ -1,10 +1,11 @@
+// ignore_for_file: unnecessary_const
 
 import 'package:flutter/material.dart';
 
-ThemeData theme () {
+ThemeData theme() {
   return ThemeData(
     scaffoldBackgroundColor: Colors.white,
-     fontFamily: 'Avenir',
+    fontFamily: 'Avenir',
     textTheme: textTheme(),
   );
 }
@@ -51,6 +52,5 @@ TextTheme textTheme() {
       fontSize: 12,
       fontWeight: FontWeight.normal,
     ),
-
   );
 }

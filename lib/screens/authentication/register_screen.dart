@@ -215,14 +215,11 @@
 // }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerceapp/config/app_router.dart';
 import 'package:ecommerceapp/model/user_model.dart';
 import 'package:ecommerceapp/screens/authentication/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
-import '../home/home_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -248,6 +245,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     passwordNameEditingController.dispose();
     confirmPasswordEditingController.dispose();
     phoneEditingController.dispose();
+
     super.dispose();
   }
 
@@ -257,10 +255,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {
                 addUserDetails(
-                    firstNameEditingController.text,
-                    secondNameEditingController.text,
-                    emailNameEditingController.text,
-                    int.parse(phoneEditingController.text)),
+                  firstNameEditingController.text,
+                  secondNameEditingController.text,
+                  emailNameEditingController.text,
+                  int.parse(phoneEditingController.text),
+                ),
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
@@ -268,11 +267,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     }
   }
 
-  Future addUserDetails(String firstname, String secondname, String email,
-      int phonenumber) async {
-    await FirebaseFirestore.instance.collection('users').add({
-      'first name': firstname,
-      'second name': secondname,
+  Future addUserDetails(
+    String firstname,
+    String secondname,
+    String email,
+    int phonenumber,
+  ) async {
+    await FirebaseFirestore.instance.collection('UserModel').add({
+      'firstname': firstname,
+      'secondname': secondname,
       'email': email,
       'phone': phonenumber,
     });
@@ -286,9 +289,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.phone = phonenumber as String?;
 
     await FirebaseFirestore.instance
-        .collection("users")
+        .collection("UserModel")
         .doc(user.uid)
-        .set(userModel.toMap());
+        .set(userModel.toJson());
     Fluttertoast.showToast(msg: "Account created successfully :) ");
     Navigator.pushAndRemoveUntil(
         (context),
@@ -305,7 +308,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       validator: (value) {
         RegExp regex = new RegExp(r'^.{3,}$');
         if (value!.isEmpty) {
-          return ("First NAme cannot be empty");
+          return ("First name cannot be empty");
         }
         if (!regex.hasMatch(value)) {
           return ("Email cant be less than 3 charaters");
@@ -427,10 +430,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       obscureText: true,
       validator: (value) {
         RegExp regex = new RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
-        if (!regex.hasMatch(value!))
+        if (!regex.hasMatch(value!)) {
           return 'Enter Valid Phone Number';
-        else
+        } else {
           return null;
+        }
       },
       onSaved: (value) {
         phoneEditingController.text = value!;

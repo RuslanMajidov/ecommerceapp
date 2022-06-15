@@ -6,18 +6,24 @@ class UserModel {
   String? firstname;
   String? secondname;
   String? phone;
+  String? imageUrl;
 
   UserModel(
-      {this.uid, this.email, this.firstname, this.secondname, this.phone});
+      {this.uid,
+      this.email,
+      this.firstname,
+      this.secondname,
+      this.phone,
+      this.imageUrl});
 
-  factory UserModel.fromMap(map) {
+  factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      uid: map['uid'],
-      email: map['email'],
-      firstname: map['firstname'],
-      secondname: map['secondname'],
-      phone: map['phone'],
-    );
+        uid: json['uid'],
+        email: json['email'],
+        firstname: json['firstname'],
+        secondname: json['secondname'],
+        phone: json['phone'],
+        imageUrl: json['imageUrl']);
   }
 
   UserModel.fromSnapshot(DataSnapshot dataSnapshot) {
@@ -28,16 +34,18 @@ class UserModel {
       firstname = m['firstname'];
       secondname = m['secondname'];
       phone = m['phone'];
+      imageUrl = m['imageUrl'];
     }
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'uid': uid,
       'email': email,
       'firstname': firstname,
       'secondname': secondname,
       'phone': phone,
+      'imageUrl': imageUrl,
     };
   }
 }

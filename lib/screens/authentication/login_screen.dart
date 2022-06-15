@@ -28,8 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = new TextEditingController();
   final _auth = FirebaseAuth.instance;
 
-  String email = "anbesha1@gmail.com";
-  String password = "123456";
+  String email = "anbesha@gmail.com";
+  String password = "12345678";
   String username = "Anbesha Thapa";
 
   Future checkLogin() async {
@@ -46,9 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
-        if (value!.isEmpty) {
-          return ("Please enter your email");
-        }
+        if (value!.isEmpty) {}
         if (!RegExp(
                 r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(value)) {
@@ -74,9 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
       obscureText: true,
       validator: (value) {
         RegExp regex = new RegExp(r'^.{6,}$');
-        if (value!.isEmpty) {
-          return ("Please enter your password");
-        }
+        if (value!.isEmpty) {}
         if (!regex.hasMatch(value)) {
           return ("Password cant be less than 6 charaters");
         }
@@ -102,10 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         onPressed: () async {
           signIn(emailController.text, passwordController.text);
-          final SharedPreferences sharedPreferences =
-              await SharedPreferences.getInstance();
-          sharedPreferences.setString('email', emailController.text);
-          Get.to(MainScreen());
+
+          // Get.to(MainScreen());
           // Navigator.push(
           //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
         },
@@ -191,12 +185,14 @@ class _LoginScreenState extends State<LoginScreen> {
       await _auth
           .signInWithEmailAndPassword(
               email: emailController.text, password: password)
-          .then((uid) => {
-                Fluttertoast.showToast(msg: "Login Successful"),
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => MainScreen())),
-              })
-          .catchError((e) {
+          .then((uid) async {
+        Fluttertoast.showToast(msg: "Login Successful");
+        SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.setString('email', emailController.text);
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => MainScreen()));
+      }).catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
     }

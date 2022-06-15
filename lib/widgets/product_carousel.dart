@@ -35,7 +35,7 @@ class ProductCarousel extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(8.0),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Color(0x18000000),
                     spreadRadius: 1,

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:ecommerceapp/screens/checkout/checkout_screen.dart';
 import 'package:ecommerceapp/screens/home/home_screen.dart';
@@ -17,7 +19,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int index = 2;
+  int index = 0;
   final screens = [
     HomeScreen(),
     WishListSCreen(),

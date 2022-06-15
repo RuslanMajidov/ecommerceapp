@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:ecommerceapp/blocs/blocs.dart';
 import 'package:ecommerceapp/blocs/wishlist/wishlist_event.dart';
 import 'package:ecommerceapp/blocs/wishlist/wishlist_state.dart';

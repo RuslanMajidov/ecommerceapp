@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:ecommerceapp/screens/profile/EditProfile.dart';
 import 'package:flutter/material.dart';
 import '/models/models.dart';
@@ -8,15 +10,10 @@ class AppRouter {
     print('Route: ${settings.name}');
     switch (settings.name) {
       case '/':
-      case HomeScreen.routeName:
         return HomeScreen.route();
 
-      case SplashScreen.routeName:
-        return SplashScreen.route();
       case CartScreen.routeName:
         return CartScreen.route();
-      case ProductScreen.routeName:
-        return ProductScreen.route(product: settings.arguments as Product);
       case ProductScreen.routeName:
         return ProductScreen.route(product: settings.arguments as Product);
       case AllProducts.routeName:
@@ -27,8 +24,8 @@ class AppRouter {
         return WishListSCreen.route();
       case ProfileScreen.routeName:
         return ProfileScreen.route();
-      case EditProfile.routeName:
-        return EditProfile.route();
+      case ProfileView.routeName:
+        return ProfileView.route();
       case CheckoutScreen.routeName:
         return CheckoutScreen.route();
       case LoginScreen.routeName:

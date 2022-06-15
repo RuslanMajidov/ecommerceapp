@@ -10,8 +10,9 @@ class Cart extends Equatable {
   double deliveryFee(subtotal) {
     if (subtotal >= 3000) {
       return 0.0;
-    } else
+    } else {
       return 100.0;
+    }
   }
 
   double total(subtotal, deliveryFee) {
