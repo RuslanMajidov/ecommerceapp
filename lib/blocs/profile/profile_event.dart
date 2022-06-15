@@ -1,11 +1,19 @@
 abstract class ProfileEvent {}
 
-class uploadFile extends ProfileEvent {}
+class ChangeAvatarRequest extends ProfileEvent {}
 
-class imageFromCamera extends ProfileEvent {}
+class OpenImagePicker extends ProfileEvent {}
 
-class pickImage extends ProfileEvent {}
+class ProvideImagePath extends ProfileEvent {
+  final String? avatarPath;
 
-class TextFormField extends ProfileEvent {}
+  ProvideImagePath({this.avatarPath});
+}
+
+class ProfileDescriptionChanged extends ProfileEvent {
+  final String? description;
+
+  ProfileDescriptionChanged({this.description});
+}
 
 class SaveProfileChanges extends ProfileEvent {}

@@ -16,6 +16,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 
 import '../../blocs/profile/profile_bloc.dart';
+import '../../blocs/profile/profile_state.dart';
 
 class EditProfile extends StatefulWidget {
   static const String routeName = '/editprofile';
@@ -31,6 +32,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  User? myUser;
   void getData() async {
     String name = "";
     String email = "";
@@ -107,7 +109,7 @@ class _EditProfileState extends State<EditProfile> {
     String uploadFileName =
         DateTime.now().millisecondsSinceEpoch.toString() + '.jpg';
     Reference reference =
-    storageRef.ref().child(collectionName).child(uploadFileName);
+        storageRef.ref().child(collectionName).child(uploadFileName);
     UploadTask uploadTask = reference.putFile(File(_photo!.path));
     uploadTask.snapshotEvents.listen((event) {
       print(event.bytesTransferred.toString() +
@@ -153,9 +155,11 @@ class _EditProfileState extends State<EditProfile> {
 
   late String userUid;
   void getUserUid() {
-    User? myUser = FirebaseAuth.instance.currentUser;
+    myUser = FirebaseAuth.instance.currentUser;
     userUid = myUser!.uid;
   }
+
+  User? currentUser;
 
   // @override
   // void initState() {
@@ -171,141 +175,146 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
+    currentUser = FirebaseAuth.instance.currentUser;
     return BlocProvider(
         create: (context) => ProfileBloc(
-          currentUser: ,
-        ),
+              user: currentUser,
+              isCurrentUser: true,
+            ),
         child: Scaffold(
           appBar: AppBar(
             elevation: 0,
             title: const Text('Edit Profile'),
             backgroundColor: Colors.redAccent,
           ),
-          body: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(8, 40, 8, 8),
-                child: Column(
-                  children: <Widget>[
-                    Center(
-                      child: GestureDetector(
-                        onTap: () {
-                          _showPicker(context);
-                        },
-                        child: CircleAvatar(
-                          radius: 55,
-                          backgroundColor: const Color(0xffFDCF09),
-                          child: _photo != null
-                              ? ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image.file(
-                              _photo!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )
-                              : Container(
-                            decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(50)),
-                            width: 100,
-                            height: 100,
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.grey[800],
-                            ),
+          body:
+              BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
+            return SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(8, 40, 8, 8),
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: CircleAvatar(
+                            radius: 55,
+                            backgroundColor: const Color(0xffFDCF09),
+                            child: _photo != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.file(
+                                      _photo!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    width: 100,
+                                    height: 100,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.grey[800],
+                                    ),
+                                  ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 60,
-                    ),
-                    TextFormField(
-                      obscureText: false,
-                      controller: _usernameController,
-                      autofocus: false,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return ("Please enter your username");
-                        }
-                      },
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                          hintText: "Username",
-                          border: OutlineInputBorder(
+                      SizedBox(
+                        height: 60,
+                      ),
+                      TextFormField(
+                        obscureText: false,
+                        controller: _usernameController,
+                        autofocus: false,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return ("Please enter your username");
+                          }
+                        },
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            hintText: "Username",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        obscureText: false,
+                        controller: _emailController,
+                        autofocus: false,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return ("Please enter your email");
+                          }
+                        },
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            hintText: "Email",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _phonenumberController,
+                        autofocus: false,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return ("Please enter your phone number");
+                          }
+                        },
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            hintText: "Phone Number",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                          height: 40,
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
                             borderRadius: BorderRadius.circular(10),
-                          )),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      obscureText: false,
-                      controller: _emailController,
-                      autofocus: false,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return ("Please enter your email");
-                        }
-                      },
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                          hintText: "Email",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      controller: _phonenumberController,
-                      autofocus: false,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return ("Please enter your phone number");
-                        }
-                      },
-                      textInputAction: TextInputAction.next,
-                      decoration: InputDecoration(
-                          contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                          hintText: "Phone Number",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          )),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                        height: 40,
-                        width: double.maxFinite,
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: RaisedButton(
-                          color: Colors.redAccent,
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text(
-                            'Proceed',
-                            style: TextStyle(color: Colors.white),
                           ),
-                        )),
-                  ],
+                          child: RaisedButton(
+                            color: Colors.redAccent,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(
+                              'Proceed',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          )),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        )
-    );
+            );
+          }),
+        ));
   }
 
   void _showPicker(context) {
@@ -359,7 +368,7 @@ getStudentGPA(gpa) {
 
 createData() {
   DocumentReference documentReference =
-  FirebaseFirestore.instance.collection("MyStudents").doc(studentName);
+      FirebaseFirestore.instance.collection("MyStudents").doc(studentName);
   Map<String, dynamic> students = {
     "studentName": studentName,
     "studentID": studentID,
@@ -373,7 +382,7 @@ createData() {
 
 readData() {
   DocumentReference documentReference =
-  FirebaseFirestore.instance.collection("My Students").doc(studentName);
+      FirebaseFirestore.instance.collection("My Students").doc(studentName);
   Map<String, dynamic> students = {
     "studentName": studentName,
     "studentID": studentID,
@@ -387,7 +396,7 @@ readData() {
 
 updateData() {
   DocumentReference documentReference =
-  FirebaseFirestore.instance.collection("MyStudents").doc(studentName);
+      FirebaseFirestore.instance.collection("MyStudents").doc(studentName);
   Map<String, dynamic> students = {
     "studentName": studentName,
     "studentID": studentID,
@@ -401,7 +410,7 @@ updateData() {
 
 deleteData() {
   DocumentReference documentReference =
-  FirebaseFirestore.instance.collection("MyStudents").doc(studentName);
+      FirebaseFirestore.instance.collection("MyStudents").doc(studentName);
   documentReference.delete().whenComplete(() {
     print("$studentName deleted");
   });
@@ -552,7 +561,7 @@ Widget build(BuildContext context) {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot documentSnapshot =
-                      snapshot.data!.docs[index];
+                          snapshot.data!.docs[index];
                       return Row(
                         children: <Widget>[
                           Expanded(
@@ -566,7 +575,7 @@ Widget build(BuildContext context) {
                           ),
                           Expanded(
                             child:
-                            Text(documentSnapshot["studentGPA"].toString()),
+                                Text(documentSnapshot["studentGPA"].toString()),
                           )
                         ],
                       );

@@ -1,36 +1,42 @@
-// ignore_for_file: non_constant_identifier_names
-
-import 'package:ecommerceapp/model/user_model.dart';
-import 'package:ecommerceapp/screens/profile/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../form_submission_status.dart';
+
 class ProfileState {
-  final UserModel currentUser;
+  final User user;
+  final bool isCurrentUser;
+  final String avatarPath;
+  final String userDescription;
 
-  final String uploadFile;
-  final String TextFormField;
+  String get username => user.displayName ?? '';
+  String get email => user.email ?? 'ssdd';
 
-  String? get username => currentUser.uid;
-  String? get email => currentUser.email;
-  String? get uid => currentUser.uid;
+  final FormSubmissionStatus formStatus;
 
-  ProfileState(
-    this.uploadFile,
-    this.currentUser,
-    this.TextFormField, {
-    required avatarPath,
-  });
+  ProfileState({
+    @required User? user,
+    @required bool? isCurrentUser,
+    String? avatarPath,
+    String? userDescription,
+    this.formStatus = const InitialFormStatus(),
+  })  : this.user = user!,
+        this.isCurrentUser = isCurrentUser ?? false,
+        this.avatarPath = avatarPath ?? '',
+        this.userDescription = userDescription ?? '';
 
-  copyWith(
-      {required UserModel userModel,
-      required avatarPath,
-      required String textFormField}) {
+  ProfileState copyWith({
+    User? user,
+    String? avatarPath,
+    String? userDescription,
+    FormSubmissionStatus? formStatus,
+  }) {
     return ProfileState(
-      uploadFile,
-      currentUser,
-      TextFormField,
-      avatarPath: avatarPath,
+      user: user ?? this.user,
+      isCurrentUser: this.isCurrentUser,
+      avatarPath: avatarPath ?? this.avatarPath,
+      userDescription: userDescription ?? this.userDescription,
+      formStatus: formStatus ?? this.formStatus,
     );
   }
 }
