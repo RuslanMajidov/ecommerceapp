@@ -39,8 +39,9 @@ class AllProducts extends StatelessWidget {
           children: [
             Image.network(
               product.imageUrl,
-              width: double.maxFinite,
+              width: double.infinity,
               height: 150,
+              fit: BoxFit.cover,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

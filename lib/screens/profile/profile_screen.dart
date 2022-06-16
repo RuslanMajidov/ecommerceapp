@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerceapp/model/user_model.dart';
+import 'package:ecommerceapp/screens/profile/EditProfile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -172,7 +173,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: Color(0xFF616161),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/editprofile');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditProfile()));
                             },
                           ),
                         ],

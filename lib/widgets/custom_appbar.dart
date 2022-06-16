@@ -10,7 +10,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
     required this.title,
   }) : super(key: key);
   @override
-  Size get preferredSize => Size.fromHeight(180.0);
+  Size get preferredSize => Size.fromHeight(200.0);
 
   get tagsList => ['Shoes', 'Hand-Bag', 'Ornaments', 'Goggles'];
 
@@ -25,55 +25,59 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  child:
-                      Text('IF YOU CANT STOP THINKING\nABOUT IT..\nBUY IT 🛍️',
-                          style: TextStyle(
-                            color: Colors.redAccent,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          )),
-                ),
-                ActionChip(
-                    label: Text(""),
-                    onPressed: () {
-                      logout(context);
-                    }),
-                Stack(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.orange.withOpacity(1),
-                                spreadRadius: 0.1,
-                                blurRadius: 0.1,
-                                offset: Offset(0, 1))
-                          ]),
-                      child: Icon(
-                        Icons.logout,
-                        color: Colors.orange,
-                      ),
-                    ),
-                    Positioned(
-                        right: 10,
-                        top: 10,
-                        child: Container(
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: Colors.orange,
-                            shape: BoxShape.circle,
-                          ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                        'IF YOU CANT STOP THINKING\nABOUT IT..\nBUY IT 🛍️',
+                        style: TextStyle(
+                          color: Colors.redAccent,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
                         )),
-                  ],
-                )
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: ActionChip(
+                      backgroundColor: Colors.redAccent.shade200,
+                      label: Text("Logout"),
+                      onPressed: () {
+                        logout(context);
+                      }),
+                ),
+                // Stack(
+                //   children: [
+                //     Container(
+                //       padding: EdgeInsets.all(10),
+                //       decoration: BoxDecoration(
+                //           color: Colors.white,
+                //           borderRadius: BorderRadius.circular(10),
+                //           boxShadow: [
+                //             BoxShadow(
+                //                 color: Colors.orange.withOpacity(1),
+                //                 spreadRadius: 0.1,
+                //                 blurRadius: 0.1,
+                //                 offset: Offset(0, 1))
+                //           ]),
+                //       // child: Icon(
+                //       //   Icons.logout,
+                //       //   color: Colors.orange,
+                //       // ),
+                //     ),
+                //     Positioned(
+                //         right: 10,
+                //         top: 10,
+                //         child: Container(
+                //           width: 10,
+                //           height: 10,
+                //           decoration: BoxDecoration(
+                //             color: Colors.orange,
+                //             shape: BoxShape.circle,
+                //           ),
+                //         )),
+                //   ],
+                // )
               ],
-            ),
-            SizedBox(
-              height: 10,
             ),
             Column(
               children: [
@@ -85,7 +89,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
                     );
                   },
                   child: Container(
-                    width: double.maxFinite,
+                    margin: EdgeInsets.symmetric(horizontal: 20.0),
                     decoration: BoxDecoration(
                         color: Colors.grey[100],
                         borderRadius: BorderRadius.circular(10),

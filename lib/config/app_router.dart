@@ -24,8 +24,8 @@ class AppRouter {
         return WishListSCreen.route();
       case ProfileScreen.routeName:
         return ProfileScreen.route();
-      case ProfileView.routeName:
-        return ProfileView.route();
+      // case ProfileView.routeName:
+      //   return ProfileView.route();
       case CheckoutScreen.routeName:
         return CheckoutScreen.route();
       case LoginScreen.routeName:

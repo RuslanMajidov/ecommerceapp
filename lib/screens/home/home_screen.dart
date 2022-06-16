@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   .toList(),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -128,7 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             // ProductCard(product: Product.products[0],)
 
-            ProductCarousel(products: Product.products),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ProductCarousel(products: Product.products),
+            ),
           ],
         ),
       ),
