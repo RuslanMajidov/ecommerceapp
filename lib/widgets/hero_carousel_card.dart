@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_this
-
 import 'package:ecommerceapp/models/models.dart';
 import 'package:flutter/material.dart';
 

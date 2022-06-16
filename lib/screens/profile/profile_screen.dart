@@ -1,15 +1,10 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerceapp/model/user_model.dart';
 import 'package:ecommerceapp/screens/profile/EditProfile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../models/menu_item.dart';
-import '../authentication/login_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String routeName = '/profile';

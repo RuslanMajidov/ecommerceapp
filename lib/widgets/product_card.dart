@@ -1,9 +1,5 @@
-import 'package:ecommerceapp/blocs/wishlist/wishlist_bloc.dart';
-import 'package:ecommerceapp/blocs/wishlist/wishlist_event.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {

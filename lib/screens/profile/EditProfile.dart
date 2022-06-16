@@ -1,21 +1,11 @@
-// ignore_for_file: deprecated_member_use, avoid_print, file_names
-
-import 'dart:convert';
-
 import 'package:ecommerceapp/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
-import 'package:path/path.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:http/http.dart' as http;
-
-import '../../blocs/profile/profile_bloc.dart';
 
 class EditProfile extends StatefulWidget {
   static const String routeName = '/editprofile';
