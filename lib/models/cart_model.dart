@@ -8,7 +8,7 @@ class Cart extends Equatable {
   double get subtotal =>
       products.fold(0, (total, current) => total + current.price);
   double deliveryFee(subtotal) {
-    if (subtotal >= 3000) {
+    if (subtotal >= 2500) {
       return 0.0;
     } else {
       return 100.0;
@@ -20,7 +20,7 @@ class Cart extends Equatable {
   }
 
   String freeDelivery(subtotal) {
-    if (subtotal >= 3000) {
+    if (subtotal >= 2500) {
       return 'You have Free Delivery';
     } else {
       num missing = 3000 - subtotal;

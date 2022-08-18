@@ -150,14 +150,6 @@ class Search extends Equatable {
       ProductList: true,
     ),
     Search(
-      name: "Rexine Plain Hand Bag",
-      category: 'Hand Bags',
-      imageUrl:
-          'https://5.imimg.com/data5/AQ/UF/MY-2279552/ladies-hand-bag-500x500.jpg',
-      price: 200,
-      ProductList: true,
-    ),
-    Search(
       name: "Purses Shoulder Handbag",
       category: 'Hand Bags',
       imageUrl:

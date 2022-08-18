@@ -1,11 +1,15 @@
 import 'package:ecommerceapp/model/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+
+import '../../blocs/profile/profile_bloc.dart';
+import '../../blocs/profile/profile_state.dart';
 
 class EditProfile extends StatefulWidget {
   static const String routeName = '/editprofile';
@@ -21,6 +25,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  User? myUser;
   void getData() async {
     String name = "";
     String email = "";
@@ -143,154 +148,154 @@ class _EditProfileState extends State<EditProfile> {
 
   late String userUid;
   void getUserUid() {
-    User? myUser = FirebaseAuth.instance.currentUser;
+    myUser = FirebaseAuth.instance.currentUser;
     userUid = myUser!.uid;
   }
 
-  // @override
-  // void initState() {
-  //   fetchUsers();
-  //   super.initState();
-  // }
-  //
-  // List<UserModel> totalUsers = [];
-  // List
-  // Future<http.Response> fetchUsers() {
-  //   return http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/1'));
-  // }
+  User? currentUser;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        title: const Text('Edit Profile'),
-        backgroundColor: Colors.redAccent,
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(8, 40, 8, 8),
-            child: Column(
-              children: <Widget>[
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      _showPicker(context);
-                    },
-                    child: CircleAvatar(
-                      radius: 55,
-                      backgroundColor: const Color(0xffFDCF09),
-                      child: _photo != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(50),
-                              child: Image.file(
-                                _photo!,
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.fitHeight,
-                              ),
-                            )
-                          : Container(
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(50)),
-                              width: 100,
-                              height: 100,
-                              child: Icon(
-                                Icons.camera_alt,
-                                color: Colors.grey[800],
-                              ),
+    currentUser = FirebaseAuth.instance.currentUser;
+    return BlocProvider(
+        create: (context) => ProfileBloc(
+              user: currentUser,
+              isCurrentUser: true,
+            ),
+        child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            title: const Text('Edit Profile'),
+            backgroundColor: Colors.redAccent,
+          ),
+          body:
+              BlocBuilder<ProfileBloc, ProfileState>(builder: (context, state) {
+            return SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(8, 40, 8, 8),
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                        child: GestureDetector(
+                          onTap: () {
+                            _showPicker(context);
+                          },
+                          child: CircleAvatar(
+                            radius: 55,
+                            backgroundColor: const Color(0xffFDCF09),
+                            child: _photo != null
+                                ? ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.file(
+                                      _photo!,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.fitHeight,
+                                    ),
+                                  )
+                                : Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                    width: 100,
+                                    height: 100,
+                                    child: Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.grey[800],
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 60,
+                      ),
+                      TextFormField(
+                        obscureText: false,
+                        controller: _usernameController,
+                        autofocus: false,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return ("Please enter your username");
+                          }
+                        },
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            hintText: "Username",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        obscureText: false,
+                        controller: _emailController,
+                        autofocus: false,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return ("Please enter your email");
+                          }
+                        },
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            hintText: "Email",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextFormField(
+                        controller: _phonenumberController,
+                        autofocus: false,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return ("Please enter your phone number");
+                          }
+                        },
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                            contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
+                            hintText: "Phone Number",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                          height: 40,
+                          width: double.maxFinite,
+                          decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: RaisedButton(
+                            color: Colors.redAccent,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(
+                              'Proceed',
+                              style: TextStyle(color: Colors.white),
                             ),
-                    ),
+                          )),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: 60,
-                ),
-                TextFormField(
-                  obscureText: false,
-                  controller: _usernameController,
-                  autofocus: false,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return ("Please enter your username");
-                    }
-                  },
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      hintText: "Username",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  obscureText: false,
-                  controller: _emailController,
-                  autofocus: false,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return ("Please enter your email");
-                    }
-                  },
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      hintText: "Email",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                  controller: _phonenumberController,
-                  autofocus: false,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return ("Please enter your phone number");
-                    }
-                  },
-                  textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20, 15, 20, 15),
-                      hintText: "Phone Number",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Container(
-                    height: 40,
-                    width: double.maxFinite,
-                    decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: RaisedButton(
-                      color: Colors.redAccent,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text(
-                        'Proceed',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+              ),
+            );
+          }),
+        ));
   }
 
   void _showPicker(context) {
