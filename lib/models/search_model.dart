@@ -161,7 +161,7 @@ class Search extends Equatable {
       name: "CrossBody Bag",
       category: 'Hand Bags',
       imageUrl: 'https://m.media-amazon.com/images/I/416u+59IJ3L.jpg',
-      price: 200,
+      price: 300,
       ProductList: true,
     ),
     Search(
