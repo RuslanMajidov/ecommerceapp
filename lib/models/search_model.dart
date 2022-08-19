@@ -169,7 +169,7 @@ class Search extends Equatable {
       category: 'Hand Bags',
       imageUrl:
           'https://static-01.daraz.com.np/p/mdc/1592b4be090d0e11ccccc0305296b79b.jpg',
-      price: 200,
+      price: 100,
       ProductList: true,
     ),
   ];
