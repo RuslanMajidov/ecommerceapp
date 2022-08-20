@@ -26,29 +26,31 @@ class CheckoutScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'CUSTOMER INFORMATION',
-              style: Theme.of(context).textTheme.headline1,
-            ),
-            _buildTextFormField(emailController, context, 'Email'),
-            _buildTextFormField(nameController, context, 'Full Name'),
-            Text(
-              'DELIVERY INFORMATION',
-              style: Theme.of(context).textTheme.headline1,
-            ),
-            _buildTextFormField(addressController, context, 'Address'),
-            _buildTextFormField(countryController, context, 'Country'),
-            _buildTextFormField(phonenumberController, context, 'Phone no.'),
-            Text(
-              'ORDER SUMMARY',
-              style: Theme.of(context).textTheme.headline1,
-            ),
-            OrderSummary(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'CUSTOMER INFORMATION',
+                style: Theme.of(context).textTheme.headline1,
+              ),
+              _buildTextFormField(emailController, context, 'Email'),
+              _buildTextFormField(nameController, context, 'Full Name'),
+              Text(
+                'DELIVERY INFORMATION',
+                style: Theme.of(context).textTheme.headline1,
+              ),
+              _buildTextFormField(addressController, context, 'Address'),
+              _buildTextFormField(countryController, context, 'Country'),
+              _buildTextFormField(phonenumberController, context, 'Phone no.'),
+              Text(
+                'ORDER SUMMARY',
+                style: Theme.of(context).textTheme.headline1,
+              ),
+              OrderSummary(),
+            ],
+          ),
         ),
       ),
     );

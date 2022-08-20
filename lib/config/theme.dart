@@ -14,17 +14,17 @@ TextTheme textTheme() {
   return const TextTheme(
     headline1: TextStyle(
       color: Colors.black,
-      fontSize: 16,
+      fontSize: 15,
       fontWeight: FontWeight.bold,
     ),
     headline2: TextStyle(
       color: Colors.black,
-      fontSize: 16,
+      fontSize: 15,
       fontWeight: FontWeight.bold,
     ),
     headline3: TextStyle(
       color: Colors.black,
-      fontSize: 16,
+      fontSize: 15,
       fontWeight: FontWeight.bold,
     ),
     headline4: TextStyle(
