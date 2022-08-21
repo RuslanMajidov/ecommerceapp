@@ -24,7 +24,7 @@ TextTheme textTheme() {
     ),
     headline3: TextStyle(
       color: Colors.black,
-      fontSize: 15,
+      fontSize: 14,
       fontWeight: FontWeight.bold,
     ),
     headline4: TextStyle(
