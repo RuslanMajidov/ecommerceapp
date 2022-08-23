@@ -25,32 +25,30 @@ class CheckoutScreen extends StatelessWidget {
         backgroundColor: Colors.redAccent,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'CUSTOMER INFORMATION',
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              _buildTextFormField(emailController, context, 'Email'),
-              _buildTextFormField(nameController, context, 'Full Name'),
-              Text(
-                'DELIVERY INFORMATION',
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              _buildTextFormField(addressController, context, 'Address'),
-              _buildTextFormField(countryController, context, 'Country'),
-              _buildTextFormField(phonenumberController, context, 'Phone no.'),
-              Text(
-                'ORDER SUMMARY',
-                style: Theme.of(context).textTheme.headline1,
-              ),
-              OrderSummary(),
-            ],
-          ),
+        padding: const EdgeInsets.all(18.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'CUSTOMER INFORMATION',
+              style: Theme.of(context).textTheme.headline1,
+            ),
+            _buildTextFormField(emailController, context, 'Email'),
+            _buildTextFormField(nameController, context, 'Full Name'),
+            Text(
+              'DELIVERY INFORMATION',
+              style: Theme.of(context).textTheme.headline1,
+            ),
+            _buildTextFormField(addressController, context, 'Address'),
+            _buildTextFormField(countryController, context, 'Country'),
+            _buildTextFormField(phonenumberController, context, 'Phone no.'),
+            Text(
+              'ORDER SUMMARY',
+              style: Theme.of(context).textTheme.headline1,
+            ),
+            OrderSummary(),
+          ],
         ),
       ),
     );
@@ -73,15 +71,17 @@ class CheckoutScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: TextFormField(
-            controller: controller,
-            decoration: InputDecoration(
-                isDense: true,
-                contentPadding: const EdgeInsets.only(left: 10),
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                  color: Colors.black,
-                ))),
+              child: SingleChildScrollView(
+            child: TextFormField(
+              controller: controller,
+              decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: const EdgeInsets.only(left: 10),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                    color: Colors.black,
+                  ))),
+            ),
           ))
         ],
       ),
