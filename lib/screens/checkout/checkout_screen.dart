@@ -79,7 +79,7 @@ class CheckoutScreen extends StatelessWidget {
                   contentPadding: const EdgeInsets.only(left: 10),
                   focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                    color: Colors.black,
+                    color: Colors.black87,
                   ))),
             ),
           ))
